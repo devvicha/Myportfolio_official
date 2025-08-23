@@ -1,16 +1,17 @@
 {
-  "homepage": "https://vichaksha-vi.github.io/portfolio",
+  "homepage": "https://devvicha.github.io/Myportfolio_official/"
+,
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
-  },
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  "predeploy": "npm run build && cp dist/index.html dist/404.html",
+  "deploy": "gh-pages -d dist"
+}
+,
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@tailwindcss/vite": "^4.1.7",
