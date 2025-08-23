@@ -168,7 +168,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Location</p>
-                  <p className="text-white">Athurugiriya, Sri Lanka</p>
+                  <p className="text-white">Athurugiriya,Colombo,Sri Lanka</p>
                 </div>
               </div>
             </div>
