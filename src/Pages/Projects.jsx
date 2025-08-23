@@ -205,7 +205,7 @@ const Projects = () => {
           viewport={{ once: false, amount: 0.2 }}
         >
           <a
-            href="https://github.com/chamithsandeepa"
+            href="https://github.com/devvicha"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-full transition-all duration-300 text-lg font-medium"
