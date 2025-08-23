@@ -10,11 +10,11 @@ export const projects = [
     id: 1,
     title: "Personal Blog",
     description:
-      "A personal portfolio website to showcase my projects, skills, and experience. Built with HTML, CSS, and JavaScript to provide a clean and responsive user interface.",
+      "A personal portfolio website to showcase my projects, skills, and experiences. Built with HTML, CSS, and JavaScript to provide a clean and responsive user interface.",
     image: blogImg,
     technologies: ["HTML", "CSS", "JavaScript"],
-    demoLink: "https://portfolio-new-steel-psi.vercel.app/",
-    codeLink: "https://github.com/chamithsandeepa/Portfolio.git",
+    //demoLink: "https://portfolio-new-steel-psi.vercel.app/",
+    codeLink: "hhttps://github.com/devvicha/Personal-Portfolio--html-css-javascript/tree/main",
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ export const projects = [
       "AWS",
     ],
     demoLink: "https://fetch-me-home-front-end.vercel.app/",
-    codeLink: "https://github.com/chamithsandeepa/Fetch_Me_Home_FrontEnd.git",
+    //codeLink: "https://github.com/chamithsandeepa/Fetch_Me_Home_FrontEnd.git",
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ export const projects = [
     image: netflixImg,
     technologies: ["React.js", "Spring Boot", "MongoDB"],
     demoLink: "https://netflix-clone-frontend-hiup.vercel.app/",
-    codeLink: "https://github.com/chamithsandeepa/Netflix_Clone_Frontend.git",
+    codeLink: "https://github.com/devvicha/Netflix",
   },
   {
     id: 4,
@@ -51,7 +51,7 @@ export const projects = [
     image: realImg,
     technologies: ["ReactJS", "Tailwind CSS", "EmailJS"],
     demoLink: "https://real-estate-frontend-chi.vercel.app/",
-    codeLink: "https://github.com/chamithsandeepa/Real-Estate-Frontend.git",
+    //codeLink: "https://github.com/chamithsandeepa/Real-Estate-Frontend.git",
   },
   {
     id: 5,
@@ -61,7 +61,7 @@ export const projects = [
     image: todoImg,
     technologies: ["ReactJS", "Tailwind CSS"],
     demoLink: "https://to-do-app-psi-eight.vercel.app/",
-    codeLink: "https://github.com/chamithsandeepa/ToDo-App-.git",
+    //codeLink: "https://github.com/chamithsandeepa/ToDo-App-.git",
   },
   {
     id: 6,
@@ -71,6 +71,6 @@ export const projects = [
     image: travelImg,
     technologies: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
     demoLink: "N/A",
-    codeLink: "https://github.com/chamithsandeepa/Travel_Booking_System.git",
+    //codeLink: "https://github.com/chamithsandeepa/Travel_Booking_System.git",
   },
 ];
