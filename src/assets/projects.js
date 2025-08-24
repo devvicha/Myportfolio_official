@@ -50,7 +50,7 @@ export const projects = [
       "A responsive real estate website that allows users to browse, search, and inquire about properties. Built with ReactJS and styled using Tailwind CSS, it also integrates EmailJS for contact form functionality.",
     image: realImg,
     technologies: ["ReactJS", "Tailwind CSS", "EmailJS"],
-    demoLink: "https://real-estate-frontend-chi.vercel.app/",
+    //demoLink: "https://real-estate-frontend-chi.vercel.app/",
     //codeLink: "https://github.com/chamithsandeepa/Real-Estate-Frontend.git",
   },
   {
