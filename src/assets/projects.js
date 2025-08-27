@@ -13,7 +13,7 @@ export const projects = [
       "A personal portfolio website to showcase my projects, skills, and experiences. Built with HTML, CSS, and JavaScript to provide a clean and responsive user interface.",
     image: blogImg,
     technologies: ["HTML", "CSS", "JavaScript"],
-    //demoLink: "https://portfolio-new-steel-psi.vercel.app/",
+    demoLink: "https://devvicha.github.io/Portfolio_Assignment1/index.html#home",
     codeLink: "hhttps://github.com/devvicha/Personal-Portfolio--html-css-javascript/tree/main",
   },
   {
