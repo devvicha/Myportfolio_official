@@ -6,16 +6,17 @@ import travelImg from "../assets/travel.png";
 import todoImg from "../assets/ToDo.png";
 
 export const projects = [
-  {
-    id: 1,
-    title: "Personal Blog",
-    description:
-      "A personal portfolio website to showcase my projects, skills, and experiences. Built with HTML, CSS, and JavaScript to provide a clean and responsive user interface.",
-    image: blogImg,
-    technologies: ["HTML", "CSS", "JavaScript"],
-    demoLink: "https://devvicha.github.io/Portfolio_Assignment1/index.html#home",
-    codeLink: "hhttps://github.com/devvicha/Personal-Portfolio--html-css-javascript/tree/main",
-  },
+ {
+  id: 1,
+  title: "Personal Blog",
+  description:
+    "A personal portfolio website to showcase my projects, skills, and experiences. Built with HTML, CSS, and JavaScript to provide a clean and responsive user interface.",
+  image: blogImg,
+  technologies: ["HTML", "CSS", "JavaScript"],
+  demoLink: "https://devvicha.github.io/Portfolio_Assignment1/", // <- correct path
+  codeLink: "https://github.com/devvicha/Personal-Portfolio--html-css-javascript/tree/main",
+}
+,
   {
     id: 2,
     title: "Fetch Me Home",
