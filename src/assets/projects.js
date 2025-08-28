@@ -1,3 +1,4 @@
+import { HashRouter } from "react-router-dom";
 import blogImg from "../assets/blog.png";
 import fetchMeImg from "../assets/FetchMe.png";
 import netflixImg from "../assets/netflix.png";
@@ -75,3 +76,5 @@ export const projects = [
     //codeLink: "https://github.com/chamithsandeepa/Travel_Booking_System.git",
   },
 ];
+
+export const base = "/Myportfolio_official/";
