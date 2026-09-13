@@ -124,17 +124,21 @@ const Projects = () => {
                     transition: { duration: 0.2 },
                   }}
                 >
-                  <div className="relative h-56 overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        if (!e.target.src.includes("fallback.jpg")) {
-                          e.target.src = "/images/fallback.jpg";
-                        }
-                      }}
-                    />
+                  <div className="relative h-56 overflow-hidden bg-gray-800">
+                    {project.image ? (
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center px-6 text-center">
+                        <span className="text-gray-500 text-sm">
+                          {project.title}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="p-6">
                     <div className="flex flex-wrap gap-2 mb-4">
@@ -172,15 +176,17 @@ const Projects = () => {
                           Demo Unavailable <ExternalLink size={16} />
                         </span>
                       )}
-                      <a
-                        href={project.codeLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-purple-400 hover:text-white flex items-center gap-1 transition-colors duration-200"
-                        aria-label={`View ${project.title} code`}
-                      >
-                        Code <ExternalLink size={16} />
-                      </a>
+                      {project.codeLink && (
+                        <a
+                          href={project.codeLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-purple-400 hover:text-white flex items-center gap-1 transition-colors duration-200"
+                          aria-label={`View ${project.title} code`}
+                        >
+                          Code <ExternalLink size={16} />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </motion.div>
