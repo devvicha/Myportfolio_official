@@ -22,7 +22,16 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  const navItems = ["home", "about", "skills", "projects", "contact"];
+  // Must match the section ids rendered in App.jsx, in page order.
+  const navItems = [
+    "home",
+    "ask",
+    "projects",
+    "research",
+    "experience",
+    "speaking",
+    "contact",
+  ];
 
   return (
     <nav
