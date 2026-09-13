@@ -3,6 +3,7 @@ import blogImg from "../assets/blog.jpg";
 import netflixImg from "../assets/netflix.jpg";
 import fetchMeImg from "../assets/fetchme.jpg";
 import realImg from "../assets/realestate.jpg";
+import smartDeskImg from "../assets/smartdesk.jpg";
 
 // Projects are grouped by `category` and rendered as three separate carousels.
 // `codeLink` is omitted entirely on client work that must stay private — a
@@ -105,10 +106,10 @@ export const projects = [
     tagline: "Soldered sensor to mobile app, end to end.",
     description:
       "ESP32 firmware reading light, sound and air-quality sensors posts to a typed Express/PostgreSQL backend with JWT auth and per-device keys; an Expo React Native app renders live conditions, insights and reports.",
-    image: null,
+    image: smartDeskImg,
     technologies: ["ESP32", "Express", "PostgreSQL", "React Native", "Docker"],
     metrics: ["3 sensors", "device-key auth", "full stack"],
-    codeLink: "https://github.com/devvicha/Smart-Desk-AI-Assistant-IoT",
+    codeLink: "https://github.com/devvicha/SmartDeskAssistant",
   },
   {
     id: "sign-language",
