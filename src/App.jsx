@@ -1,4 +1,4 @@
-import React from "react";
+import { MotionConfig } from "framer-motion";
 import Navbar from "./Components/Navbar";
 import Hero from "./Components/Hero";
 import AskMyWork from "./Components/AskMyWork";
@@ -10,28 +10,15 @@ import Experience from "./Pages/Experience";
 import Speaking from "./Pages/Speaking";
 import Contact from "./Pages/Contact";
 import Footer from "./Components/Footer";
-
-// Each section component renders its own <section id> and its own container,
-// so nothing is wrapped here — a second wrapper would duplicate the ids and
-// break the nav anchors.
-//
-// Order is deliberate: the work first, then the record behind it, then prose.
-const App = () => (
-  <div className="min-h-screen bg-black text-white scroll-smooth">
-    <Navbar />
-    <main>
-      <Hero />
-      <Projects />
-      <Research />
-      <Experience />
-      <Speaking />
-      <About />
-      <Skills />
-      <Contact />
-    </main>
-    <Footer />
-    <AskMyWork />
-  </div>
-);
-
-export default App;
+export default function App() {
+  return (
+    <MotionConfig reducedMotion="user" transition={{ ease: [0.22, 1, 0.36, 1] }}>
+      <a className="skip-link" href="#main-content">Skip to content</a>
+      <Navbar />
+      <main id="main-content" tabIndex={-1}>
+        <Hero /><Projects /><About /><Experience /><Skills /><Research /><Speaking /><Contact />
+      </main>
+      <Footer /><AskMyWork />
+    </MotionConfig>
+  );
+}

@@ -1,317 +1,95 @@
-// src/Pages/Projects.jsx
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, useInView } from "framer-motion";
-import { ArrowLeft, ArrowRight, ExternalLink, MessageCircle } from "lucide-react";
-import { PROJECT_GROUPS, byCategory } from "../assets/projects";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowLeft, ArrowRight, ArrowUpRight, AudioLines, Check, Code2, Cpu, MessageCircle, Plus, X } from "lucide-react";
+import { projects } from "../assets/projects";
+import "../styles/projects.css";
 
-const AUTOPLAY_MS = 6000;
+const filters = [{ id: "featured", label: "Selected work" }, { id: "ai", label: "AI & agents" }, { id: "systems", label: "Systems & hardware" }, { id: "web", label: "Web experiences" }];
+const featured = ["whatsapp-agent", "voice-agent", "whisper-lora", "smart-desk"];
+const shortTitles = { "whatsapp-agent": "Conversations to commerce.", "voice-agent": "A voice that understands.", "whisper-lora": "Giving Sinhala a voice.", "smart-desk": "A workspace that listens." };
+const categories = { ai: "APPLIED AI", systems: "CONNECTED SYSTEMS", web: "WEB DEVELOPMENT" };
 
-const variants = {
-  center: { x: 0, scale: 1, opacity: 1, zIndex: 10, pointerEvents: "auto", transition: { duration: 0.5 } },
-  left: { x: -300, scale: 0.85, opacity: 0.5, zIndex: 5, pointerEvents: "none", transition: { duration: 0.5 } },
-  right: { x: 300, scale: 0.85, opacity: 0.5, zIndex: 5, pointerEvents: "none", transition: { duration: 0.5 } },
-  hidden: { x: 0, scale: 0, opacity: 0, zIndex: 0, pointerEvents: "none", transition: { duration: 0.5 } },
-};
-
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-const ProjectCard = ({ project, isActive }) => {
-  // Links on off-screen cards must not be reachable by keyboard.
-  const tab = isActive ? 0 : -1;
-
-  return (
-    <div className="w-96 bg-gray-900/90 rounded-xl overflow-hidden border border-gray-800">
-      {project.image ? (
-        <div className="relative h-52 overflow-hidden bg-black">
-          <img
-            src={project.image}
-            alt={project.title}
-            loading="lazy"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      ) : (
-        <div className="h-0.5 w-full bg-purple-600/70" />
-      )}
-
-      <div className="p-7">
-        <div className="flex flex-wrap gap-1.5 mb-5">
-          {project.technologies.map((tech) => (
-            <span
-              key={tech}
-              className="text-xs bg-gray-800 text-gray-400 px-2 py-1 rounded"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <h3 className="text-xl font-semibold text-white mb-1.5 leading-snug">
-          {project.title}
-        </h3>
-
-        {project.tagline && (
-          <p className="text-purple-400 text-sm mb-4 leading-snug">{project.tagline}</p>
-        )}
-
-        <p className="text-gray-400 text-sm leading-relaxed mb-5">
-          {project.description}
-        </p>
-
-        {project.metrics && project.metrics.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.metrics.map((m) => (
-              <span
-                key={m}
-                className="text-xs text-purple-400 border border-purple-900 px-2 py-1 rounded-md tabular-nums"
-              >
-                {m}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          {project.demoLink && (
-            <a
-              href={project.demoLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              tabIndex={tab}
-              className="text-purple-400 hover:text-white flex items-center gap-1 transition-colors duration-200"
-              aria-label={`Open ${project.title} demo`}
-            >
-              Demo <ExternalLink size={16} />
-            </a>
-          )}
-
-          {project.codeLink && (
-            <a
-              href={project.codeLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              tabIndex={tab}
-              className="text-purple-400 hover:text-white flex items-center gap-1 transition-colors duration-200"
-              aria-label={`View ${project.title} code`}
-            >
-              Code <ExternalLink size={16} />
-            </a>
-          )}
-
-          {project.tryLink && (
-            <a
-              href={project.tryLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              tabIndex={tab}
-              className="text-purple-400 hover:text-white flex items-center gap-1 transition-colors duration-200"
-              aria-label={`${project.tryLabel} — ${project.title}`}
-            >
-              {project.tryLabel} <MessageCircle size={16} />
-            </a>
-          )}
-        </div>
-
-        {project.tryNote && (
-          <p className="text-gray-500 text-xs mt-3">{project.tryNote}</p>
-        )}
-      </div>
+function ProjectVisual({ project }) {
+  if (project.id === "whatsapp-agent") return (
+    <div className="project-visual visual-commerce" aria-hidden="true">
+      <div className="commerce-brand"><MessageCircle size={16} /><span>client project</span></div>
+      <div className="commerce-flow"><div className="flow-message"><span className="flow-avatar"><MessageCircle size={15} /></span><div><strong>Every conversation.<br />A little more capable.</strong><span>Sinhala · Tamil · English</span></div></div><div className="flow-connector" /><div className="flow-verified"><span><Check size={15} /></span><div>Language from the model.<br /><strong>Facts from the code.</strong></div><span className="flow-mini-lines"><i /><i /><i /></span></div></div>
+      <span className="visual-footnote">CONVERSATIONAL COMMERCE / SYSTEM OVERVIEW</span>
     </div>
   );
-};
-
-const ProjectCarousel = ({ items, label }) => {
-  const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const touchStartX = useRef(null);
-  const rootRef = useRef(null);
-
-  // Rotation starts when the carousel is actually on screen and stops when it
-  // leaves, so nothing is spinning in a section nobody is looking at.
-  const inView = useInView(rootRef, { amount: 0.35 });
-
-  const total = items.length;
-
-  const next = useCallback(
-    () => setCurrent((i) => (i === total - 1 ? 0 : i + 1)),
-    [total]
+  if (project.id === "voice-agent") return (
+    <div className="project-visual visual-voice" aria-hidden="true"><div className="voice-visual-label"><AudioLines size={17} /><span>Natural by design.</span></div><div className="voice-wave">{Array.from({ length: 45 }, (_, i) => <i key={i} style={{ "--height": `${12 + Math.pow(Math.sin(i * 0.42), 2) * (83 - Math.abs(22 - i) * 2.9)}px`, "--delay": `${i * 35}ms` }} />)}</div><div className="voice-languages"><span>ආයුබෝවන්</span><span>Hello</span><span>வணக்கம்</span></div><span className="visual-footnote">FOUR PERSONAS. ONE CONVERSATION ENGINE.</span></div>
   );
-  const prev = useCallback(
-    () => setCurrent((i) => (i === 0 ? total - 1 : i - 1)),
-    [total]
+  if (project.id === "whisper-lora") return (
+    <div className="project-visual visual-speech" aria-hidden="true"><span className="speech-kicker">LOW-RESOURCE LANGUAGE. HIGH POTENTIAL.</span><span className="speech-type">සිංහල<span>.</span></span><div className="speech-bottom"><span>Whisper × LoRA</span><span>Sound → understanding <ArrowUpRight size={13} /></span></div></div>
   );
+  if (project.image) return <div className="project-visual visual-image"><img src={project.image} alt={`${project.title} project preview`} loading="lazy" width="600" height="350" /></div>;
+  return <div className={`project-visual visual-system ${project.category === "web" ? "visual-web" : ""}`} aria-hidden="true"><span className="system-kicker">{categories[project.category]}</span><div className="system-symbol">{project.category === "systems" ? <Cpu strokeWidth={.7} /> : <Code2 strokeWidth={.7} />}</div><span className="system-caption">{project.technologies.slice(0, 3).join(" / ")}</span></div>;
+}
 
-  // Autoplay runs only while in view, pauses on hover/focus, and is off
-  // entirely under prefers-reduced-motion.
+function ProjectDetails({ project, close }) {
+  const dialog = useRef(null);
   useEffect(() => {
-    if (!inView || paused || total < 2 || prefersReducedMotion()) return;
-    const id = setInterval(next, AUTOPLAY_MS);
-    return () => clearInterval(id);
-  }, [inView, paused, total, next]);
-
-  const onKeyDown = (e) => {
-    if (e.key === "ArrowRight") {
-      e.preventDefault();
-      next();
-    } else if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      prev();
-    }
-  };
-
-  const onTouchStart = (e) => {
-    touchStartX.current = e.changedTouches[0].clientX;
-  };
-  const onTouchEnd = (e) => {
-    if (touchStartX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 50) (dx < 0 ? next : prev)();
-    touchStartX.current = null;
-  };
-
-  const positionOf = (index) => {
-    if (index === current) return "center";
-    if (total < 3) return "hidden";
-    if (index === (current === 0 ? total - 1 : current - 1)) return "left";
-    if (index === (current === total - 1 ? 0 : current + 1)) return "right";
-    return "hidden";
-  };
-
+    const node = dialog.current;
+    const before = document.activeElement;
+    const overflow = document.body.style.overflow;
+    node.showModal();
+    document.body.style.overflow = "hidden";
+    return () => { node.close(); document.body.style.overflow = overflow; before?.focus(); };
+  }, []);
   return (
-    <div
-      ref={rootRef}
-      role="group"
-      aria-roledescription="carousel"
-      aria-label={label}
-      tabIndex={0}
-      onKeyDown={onKeyDown}
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      className="relative flex flex-col items-center rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
-    >
-      <div className="relative flex items-center justify-center w-full">
-        <button
-          onClick={prev}
-          className="absolute left-0 z-20 p-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white transition-colors duration-200"
-          aria-label={`Previous project in ${label}`}
-        >
-          <ArrowLeft className="w-6 h-6" />
-        </button>
-
-        <div className="w-full max-w-6xl min-h-[560px] relative overflow-visible flex justify-center py-4">
-          {items.map((project, index) => {
-            const position = positionOf(index);
-            return (
-              <motion.div
-                key={project.id}
-                className="absolute"
-                variants={variants}
-                initial="hidden"
-                animate={position}
-                aria-hidden={position !== "center"}
-              >
-                <ProjectCard project={project} isActive={position === "center"} />
-              </motion.div>
-            );
-          })}
-        </div>
-
-        <button
-          onClick={next}
-          className="absolute right-0 z-20 p-3 rounded-full bg-purple-600 hover:bg-purple-700 text-white transition-colors duration-200"
-          aria-label={`Next project in ${label}`}
-        >
-          <ArrowRight className="w-6 h-6" />
-        </button>
+    <dialog className="project-dialog" ref={dialog} aria-labelledby="project-dialog-title" onCancel={(event) => { event.preventDefault(); close(); }} onClick={(event) => { if (event.target === event.currentTarget) { const box = event.currentTarget.getBoundingClientRect(); if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) close(); } }}>
+      <button className="project-dialog-close" onClick={close} aria-label="Close project details" autoFocus><X size={20} /></button>
+      <ProjectVisual project={project} />
+      <div className="project-dialog-body"><p className="section-label">{categories[project.category]} / PROJECT NOTES</p><h2 id="project-dialog-title">{project.title}</h2><p className="project-dialog-tagline">{project.tagline}</p><p className="project-dialog-description">{project.description}</p>
+        <div className="project-metrics">{project.metrics.map((metric) => <span key={metric}>{metric}</span>)}</div>
+        <div className="project-tech"><span>BUILT WITH</span><div>{project.technologies.map((tech) => <span className="tag" key={tech}>{tech}</span>)}</div></div>
+        <div className="project-dialog-links">{project.demoLink && <a className="button button-dark" href={project.demoLink} target="_blank" rel="noopener noreferrer">{"Open project"}<ArrowUpRight size={16} /></a>}{project.codeLink && <a className="button button-light" href={project.codeLink} target="_blank" rel="noopener noreferrer">View source <Code2 size={16} /></a>}{project.tryLink && <a className="text-link" href={project.tryLink} target="_blank" rel="noopener noreferrer">{project.tryLabel}<ArrowUpRight size={15} /></a>}</div>
+        {project.tryNote && <p className="project-private-note">{project.tryNote}</p>}
+        {!project.demoLink && !project.codeLink && !project.tryLink && <p className="project-private-note">This work lives in a private repository. <a href="#contact" onClick={close}>Get in touch for a walkthrough <ArrowUpRight size={13} /></a></p>}
       </div>
-
-      <div className="flex items-center gap-2 mt-6">
-        {items.map((project, index) => (
-          <button
-            key={project.id}
-            onClick={() => setCurrent(index)}
-            aria-label={`Show ${project.title}`}
-            aria-current={index === current}
-            className={`h-2 rounded-full transition-all duration-200 ${
-              index === current
-                ? "w-6 bg-purple-500"
-                : "w-2 bg-gray-700 hover:bg-gray-600"
-            }`}
-          />
-        ))}
-      </div>
-
-      <p className="sr-only" aria-live="polite">
-        {items[current].title}, {current + 1} of {total}
-      </p>
-    </div>
+    </dialog>
   );
-};
+}
 
-const Projects = () => (
-  <section id="projects" className="py-20 bg-black">
-    <div className="container mx-auto px-6">
-      <motion.div
-        className="max-w-3xl mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: false, amount: 0.2 }}
-      >
-        <h2 className="text-4xl md:text-5xl font-bold mb-3 text-white">
-          Featured <span className="text-purple-500">Projects</span>
-        </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-          Production systems first — the ones with live users, real failure
-          modes and tests behind them.
-        </p>
-      </motion.div>
-
-      <div className="flex flex-col gap-24">
-        {PROJECT_GROUPS.map((group) => {
-          const items = byCategory(group.key);
-          if (items.length === 0) return null;
-          return (
-            <div key={group.key}>
-              <div className="mb-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  {group.heading.replace(group.accent, "").trim()}{" "}
-                  <span className="text-purple-500">{group.accent}</span>
-                </h3>
-                <p className="text-gray-400">{group.blurb}</p>
-              </div>
-              <ProjectCarousel items={items} label={group.heading} />
-            </div>
-          );
-        })}
+export default function Projects() {
+  const [filter, setFilter] = useState("featured");
+  const [selected, setSelected] = useState(null);
+  const [position, setPosition] = useState({ start: true, end: false });
+  const track = useRef(null);
+  const reduced = useReducedMotion();
+  const items = filter === "featured" ? featured.map((id) => projects.find((p) => p.id === id)) : projects.filter((p) => p.category === filter);
+  useEffect(() => {
+    const node = track.current;
+    const measure = () => setPosition({ start: node.scrollLeft < 8, end: node.scrollLeft + node.clientWidth >= node.scrollWidth - 8 });
+    node.scrollTo({ left: 0, behavior: "instant" });
+    measure();
+    node.addEventListener("scroll", measure, { passive: true });
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    return () => { node.removeEventListener("scroll", measure); observer.disconnect(); };
+  }, [filter]);
+  const step = (direction) => {
+    const card = track.current.querySelector("article");
+    track.current.scrollBy({ left: direction * ((card?.offsetWidth || 440) + 24), behavior: reduced ? "instant" : "smooth" });
+  };
+  return (
+    <section id="projects" className="work-section">
+      <div className="page-shell">
+        <motion.div className="work-heading" initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .2 }} transition={{ duration: .6 }}>
+          <div><p className="section-label">01 / SELECTED WORK</p><h2 className="section-title">Built with purpose.<br /><span>Tested by the real world.</span></h2></div>
+          <div className="work-heading-aside"><p>From the first conversation to the last line of code. A few things I’ve helped bring to life.</p><a className="text-link" href="https://github.com/devvicha" target="_blank" rel="noopener noreferrer">More on GitHub <ArrowUpRight size={16} /></a></div>
+        </motion.div>
+        <div className="work-toolbar"><div className="work-filters" role="group" aria-label="Filter projects">{filters.map(({ id, label }) => <button key={id} aria-pressed={id === filter} onClick={() => setFilter(id)}>{label}<span>{id === "featured" ? featured.length : projects.filter((p) => p.category === id).length}</span></button>)}</div><span className="work-index">A FEW IDEAS, MADE REAL ↘</span></div>
+        <div className="project-track" key={filter} ref={track} tabIndex={0} role="region" aria-roledescription="carousel" aria-label={`${filters.find((f) => f.id === filter).label} projects`} onKeyDown={(event) => { if (event.key === "ArrowRight" || event.key === "ArrowLeft") { event.preventDefault(); step(event.key === "ArrowRight" ? 1 : -1); } }}>
+          {items.map((project, index) => <article className="project-card" key={project.id}>
+            <button className="project-card-button" onClick={() => setSelected(project)} aria-label={`Explore ${project.title}`}><ProjectVisual project={project} /><div className="project-card-copy"><div className="project-card-topline"><span>{categories[project.category]}</span><span>{String(index + 1).padStart(2, "0")}</span></div><h3>{shortTitles[project.id] || project.title}</h3><p>{shortTitles[project.id] ? project.title : project.tagline}</p><div className="project-card-bottom"><span>{project.technologies.slice(0, 3).join(" · ")}</span><span className="project-open-icon"><Plus size={19} /></span></div></div></button>
+          </article>)}
+        </div>
+        <div className="work-bottom"><p><span className="status-dot" /> Real projects. Actual code. Lessons included.</p><div className="carousel-controls"><span>{String(items.length).padStart(2, "0")} PROJECTS</span><button className="carousel-arrow" disabled={position.start} onClick={() => step(-1)} aria-label="Previous projects"><ArrowLeft size={19} /></button><button className="carousel-arrow" disabled={position.end} onClick={() => step(1)} aria-label="Next projects"><ArrowRight size={19} /></button></div></div>
+        <span className="sr-only" aria-live="polite">{items.length} projects in {filters.find((f) => f.id === filter).label}</span>
       </div>
-
-      <motion.div
-        className="mt-20"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: false, amount: 0.2 }}
-      >
-        <a
-          href="https://github.com/devvicha"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-full transition-all duration-300 text-lg font-medium"
-        >
-          Check My GitHub
-          <ArrowRight className="ml-2 w-5 h-5" />
-        </a>
-      </motion.div>
-    </div>
-  </section>
-);
-
-export default Projects;
+      {selected && <ProjectDetails project={selected} close={() => setSelected(null)} />}
+    </section>
+  );
+}

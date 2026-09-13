@@ -1,14 +1,13 @@
-// src/Pages/Speaking.jsx
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Users } from "lucide-react";
-
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Plus, X } from "lucide-react";
 import sp1 from "../assets/speaking-1.jpg";
 import sp2 from "../assets/speaking-2.jpg";
 import sp3 from "../assets/speaking-3.jpg";
 import sp4 from "../assets/speaking-4.jpg";
 import ev1 from "../assets/event-1.jpg";
 import ev2 from "../assets/event-2.jpg";
+import "../styles/story.css";
 
 const photos = [
   { src: sp1, alt: "Delivering an IEEE tech talk at UoK Robotics 2024", caption: "UoK Robotics — Tech Talk (2024)" },
@@ -29,147 +28,108 @@ const roles = [
 ];
 
 export default function Speaking() {
+  const reducedMotion = useReducedMotion();
+  const galleryRef = useRef(null);
+  const dialogRef = useRef(null);
   const [openIndex, setOpenIndex] = useState(null);
+  const [galleryEdges, setGalleryEdges] = useState({ start: true, end: false });
+  const isViewerOpen = openIndex !== null;
 
-  // Lightbox keyboard control + scroll lock
   useEffect(() => {
-    const onKey = (e) => {
-      if (openIndex == null) return;
-      if (e.key === "Escape") setOpenIndex(null);
-      if (e.key === "ArrowRight") setOpenIndex((i) => (i + 1) % photos.length);
-      if (e.key === "ArrowLeft") setOpenIndex((i) => (i - 1 + photos.length) % photos.length);
-    };
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = openIndex == null ? "" : "hidden";
+    const gallery = galleryRef.current;
+    const updateEdges = () => setGalleryEdges({ start: gallery.scrollLeft < 8, end: gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 8 });
+    const observer = new ResizeObserver(updateEdges);
+    observer.observe(gallery);
+    gallery.addEventListener("scroll", updateEdges, { passive: true });
+    updateEdges();
     return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      observer.disconnect();
+      gallery.removeEventListener("scroll", updateEdges);
     };
-  }, [openIndex]);
+  }, []);
+
+  useEffect(() => {
+    if (!isViewerOpen) return;
+    const dialog = dialogRef.current;
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    document.body.style.overflow = "hidden";
+    return () => {
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isViewerOpen]);
+
+  const moveGallery = (direction) => {
+    const gallery = galleryRef.current;
+    const card = gallery.querySelector("figure");
+    const gap = Number.parseFloat(getComputedStyle(gallery).columnGap) || 24;
+    gallery.scrollBy({ left: direction * (card.getBoundingClientRect().width + gap), behavior: reducedMotion ? "instant" : "smooth" });
+  };
+
+  const moveViewer = (direction) => setOpenIndex((index) => (index + direction + photos.length) % photos.length);
+  const currentPhoto = photos[openIndex ?? 0];
 
   return (
-    <section id="speaking" className="py-20 bg-black">
-      <div className="container mx-auto px-6">
+    <section id="speaking" className="story-section story-speaking" aria-labelledby="speaking-heading">
+      <div className="page-shell">
         <motion.div
-          className="max-w-3xl mb-14"
-          initial={{ opacity: 0, y: 20 }}
+          className="section-heading story-split-heading"
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: false, amount: 0.2 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-3 text-white">
-            Speaking & <span className="text-purple-500">Community</span>
-          </h2>
-          <p className="text-gray-400 max-w-2xl text-lg">
-            Six years of running events, hosting webinars and leading student
-            chapters — the part of engineering that happens in front of people.
-          </p>
+          <div>
+            <p className="section-label">Speaking & community</p>
+            <h2 id="speaking-heading" className="section-title">Good work happens<br />with people.</h2>
+          </div>
+          <p className="story-heading-copy">Sharing what I learn. Building things together. A few moments from tech talks, workshops and the communities I’ve been part of.</p>
         </motion.div>
 
-        {/* Leadership record */}
-        <div className="max-w-4xl mb-16">
-          <div className="flex items-center gap-2.5 mb-6">
-            <Users className="w-5 h-5 text-purple-500" />
-            <h3 className="text-xl font-semibold text-white">Leadership</h3>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            {roles.map((item, i) => (
-              <motion.div
-                key={item.role + item.org}
-                className="bg-gray-900/90 border border-gray-800 rounded-xl p-5"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.45, delay: (i % 6) * 0.05 }}
-              >
-                <div className="flex items-baseline justify-between gap-3 mb-1">
-                  <h4 className="text-white font-semibold">{item.role}</h4>
-                  <span className="text-gray-500 text-sm shrink-0">{item.year}</span>
-                </div>
-                <p className="text-gray-400 text-sm leading-relaxed">{item.org}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Photo grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {photos.map((p, i) => (
-            <motion.figure
-              key={p.caption}
-              className="group rounded-xl overflow-hidden border border-gray-800 bg-gray-900/90 m-0"
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
-            >
-              <button
-                type="button"
-                onClick={() => setOpenIndex(i)}
-                className="block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
-                aria-label={`Open photo: ${p.caption}`}
-              >
-                <div className="relative">
-                  <img
-                    src={p.src}
-                    alt={p.alt}
-                    loading="lazy"
-                    className="w-full h-72 md:h-80 object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
-                  <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-black/50 to-transparent" />
-                </div>
+        <div className="story-gallery" ref={galleryRef} role="region" aria-roledescription="carousel" aria-label="Community photo gallery" tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+              event.preventDefault();
+              moveGallery(event.key === "ArrowRight" ? 1 : -1);
+            }
+          }}
+        >
+          {photos.map((photo, index) => (
+            <figure className="story-gallery-item" key={photo.caption} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${photos.length}`}>
+              <button type="button" onClick={() => setOpenIndex(index)} className="story-gallery-photo" aria-label={`Enlarge photo: ${photo.caption}`} aria-haspopup="dialog">
+                <img src={photo.src} alt={photo.alt} loading="lazy" width="1400" height={index === 0 ? 1051 : index === 5 ? 787 : 933} />
+                <span className="story-gallery-expand" aria-hidden="true"><ArrowUpRight size={20} /></span>
               </button>
-              <figcaption className="p-3 text-sm text-gray-400">{p.caption}</figcaption>
-            </motion.figure>
+              <figcaption><span>{photo.caption}</span><span className="story-gallery-number" aria-hidden="true">0{index + 1}</span></figcaption>
+            </figure>
           ))}
         </div>
+        <div className="story-gallery-toolbar"><span>Small moments. Shared progress.</span><div className="story-gallery-controls"><button className="story-circle-button" type="button" onClick={() => moveGallery(-1)} disabled={galleryEdges.start} aria-label="Previous community photos"><ArrowLeft size={20} /></button><button className="story-circle-button" type="button" onClick={() => moveGallery(1)} disabled={galleryEdges.end} aria-label="Next community photos"><ArrowRight size={20} /></button></div></div>
+
+        <details className="story-leadership">
+          <summary><span><span className="section-label">Community roles · 2022–2024</span><span className="story-leadership-title">A little of the work behind these moments.</span></span><Plus size={22} aria-hidden="true" /></summary>
+          <div className="story-leadership-list">{roles.map((item) => <div className="story-leadership-role" key={item.role + item.org}><span className="story-leadership-year">{item.year}</span><h3>{item.role}</h3><p>{item.org}</p></div>)}</div>
+        </details>
       </div>
 
-      {/* Lightbox */}
-      {openIndex != null && (
-        <div
-          className="fixed inset-0 z-50 grid place-items-center bg-black/90 p-4"
-          onClick={() => setOpenIndex(null)}
-          aria-modal="true"
-          role="dialog"
-          aria-label="Photo viewer"
-        >
-          <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
-            <div className="flex justify-end mb-2">
-              <button
-                onClick={() => setOpenIndex(null)}
-                aria-label="Close photo viewer"
-                className="rounded-full border border-gray-800 bg-gray-900/90 text-gray-300 px-4 py-1.5 text-sm hover:text-white hover:border-purple-500 transition-colors"
-              >
-                Close
-              </button>
-            </div>
-
-            <img
-              src={photos[openIndex].src}
-              alt={photos[openIndex].alt}
-              className="w-full max-h-[80vh] object-contain rounded-xl"
-            />
-            <p className="mt-3 text-center text-gray-400">{photos[openIndex].caption}</p>
-
-            <div className="mt-4 flex justify-between text-sm">
-              <button
-                onClick={() => setOpenIndex((openIndex - 1 + photos.length) % photos.length)}
-                className="px-4 py-1.5 rounded-full border border-gray-800 bg-gray-900/90 text-gray-300 hover:text-white hover:border-purple-500 transition-colors"
-              >
-                ‹ Prev
-              </button>
-              <button
-                onClick={() => setOpenIndex((openIndex + 1) % photos.length)}
-                className="px-4 py-1.5 rounded-full border border-gray-800 bg-gray-900/90 text-gray-300 hover:text-white hover:border-purple-500 transition-colors"
-              >
-                Next ›
-              </button>
-            </div>
-          </div>
+      <dialog ref={dialogRef} className="story-lightbox" aria-labelledby="story-photo-caption" aria-describedby="story-photo-instructions"
+        onCancel={(event) => { event.preventDefault(); setOpenIndex(null); }}
+        onClick={(event) => { if (event.target === event.currentTarget) setOpenIndex(null); }}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+            event.preventDefault();
+            moveViewer(event.key === "ArrowRight" ? 1 : -1);
+          }
+        }}
+      >
+        <div className="story-lightbox-inner">
+          <div className="story-lightbox-top"><span>{String((openIndex ?? 0) + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}</span><button type="button" className="story-lightbox-close" onClick={() => setOpenIndex(null)} aria-label="Close photo viewer" autoFocus><X size={23} /></button></div>
+          <img src={currentPhoto.src} alt={currentPhoto.alt} />
+          <div className="story-lightbox-footer"><button type="button" className="story-circle-button" aria-label="Previous photo" onClick={() => moveViewer(-1)}><ArrowLeft size={20} /></button><p id="story-photo-caption" aria-live="polite">{currentPhoto.caption}</p><button type="button" className="story-circle-button" aria-label="Next photo" onClick={() => moveViewer(1)}><ArrowRight size={20} /></button></div>
+          <p id="story-photo-instructions" className="story-visually-hidden">Use the left and right arrow keys to browse photos. Press Escape to close.</p>
         </div>
-      )}
+      </dialog>
     </section>
   );
 }

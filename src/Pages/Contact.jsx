@@ -1,303 +1,97 @@
-import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Linkedin,
-  Code2,
-  Instagram,
-  Facebook,
-  Loader2,
-} from "lucide-react";
+import { ArrowUpRight, Check, Code2, Linkedin, Loader2, MapPin } from "lucide-react";
+import "../styles/integrations.css";
 
-/**
- * EmailJS (v4) notes:
- * - Either call emailjs.init({ publicKey }) once OR pass { publicKey } as the 4th arg of sendForm.
- * - Below we pass the publicKey via the options object (recommended for React apps).
- * - Ensure your EmailJS template variables match the input `name` attributes:
- *   your_name, your_email, message
- */
+// Keep the deployed EmailJS integration and its template field names intact.
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_fyxpyhr";
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_agels3r";
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "rE_fkaioi-bmm-GPe";
+const EMPTY_FORM = { your_name: "", your_email: "", message: "" };
 
-const SERVICE_ID = "service_fyxpyhr";
-const TEMPLATE_ID = "template_agels3r";
-const PUBLIC_KEY = "rE_fkaioi-bmm-GPe";
-
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    your_name: "",
-    your_email: "",
-    message: "",
-  });
+export default function Contact() {
+  const [formData, setFormData] = useState(EMPTY_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formStatus, setFormStatus] = useState(null); // "success" | "error" | null
+  const [formStatus, setFormStatus] = useState(null);
+  const [errors, setErrors] = useState({});
   const formRef = useRef(null);
+  const submittingRef = useRef(false);
 
-  const socialLinks = [
-    {
-      name: "LinkedIn",
-      icon: <Linkedin className="w-5 h-5" />,
-      url: "https://www.linkedin.com/in/vichaksha-geekiyanage-a3b293227/",
-    },
-    {
-      name: "GitHub",
-      icon: <Code2 className="w-5 h-5" />,
-      url: "https://github.com/devvicha",
-    },
-    {
-      name: "Instagram",
-      icon: <Instagram className="w-5 h-5" />,
-      url: "https://www.instagram.com/vichaksha_vi/?hl=en",
-    },
-    {
-      name: "Facebook",
-      icon: <Facebook className="w-5 h-5" />,
-      url: "https://www.facebook.com/vithaksha.viduranga",
-    },
-  ];
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setFormData((previous) => ({ ...previous, [name]: value }));
+    setErrors((previous) => ({ ...previous, [name]: "" }));
+    setFormStatus(null);
+  }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const validate = () => {
-    if (!formData.your_name.trim()) return "Please enter your name.";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.your_email))
-      return "Please enter a valid email.";
-    if (!formData.message.trim()) return "Please enter a message.";
-    return null;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const err = validate();
-    if (err) {
-      setFormStatus({ type: "error", text: err });
-      setTimeout(() => setFormStatus(null), 4000);
+  async function handleSubmit(event) {
+    event.preventDefault();
+    if (submittingRef.current) return;
+    const nextErrors = {};
+    if (!formData.your_name.trim()) nextErrors.your_name = "Please add your name.";
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.your_email.trim())) nextErrors.your_email = "Please enter a valid email address.";
+    if (!formData.message.trim()) nextErrors.message = "Tell me a little about what you have in mind.";
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      formRef.current.elements.namedItem(Object.keys(nextErrors)[0])?.focus();
       return;
     }
 
+    submittingRef.current = true;
     setIsSubmitting(true);
     setFormStatus(null);
-
     try {
-      await emailjs.sendForm(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        formRef.current,
-        { publicKey: PUBLIC_KEY } // <-- v4 requires options object
-      );
-
-      setFormStatus({ type: "success", text: "Message sent successfully!" });
-      setFormData({ your_name: "", your_email: "", message: "" });
-      setTimeout(() => setFormStatus(null), 5000);
-    } catch (error) {
-      console.error("Email send failed:", error?.text || error);
-      setFormStatus({
-        type: "error",
-        text: "Failed to send message. Please try again.",
-      });
-      setTimeout(() => setFormStatus(null), 5000);
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, { publicKey: PUBLIC_KEY });
+      setFormStatus({ type: "success", text: "Message sent. Thanks for getting in touch — I’ll get back to you by email." });
+      setFormData(EMPTY_FORM);
+    } catch {
+      setFormStatus({ type: "error", text: "Your message couldn’t be sent. Please try again, or email me directly using the address alongside this form." });
     } finally {
+      submittingRef.current = false;
       setIsSubmitting(false);
     }
-  };
+  }
 
   return (
-    <section className="py-20 bg-black">
-      <div className="container mx-auto px-6">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl md:text-4xl font-bold mb-2 text-white">
-            Get In <span className="text-purple-500">Touch</span>
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Have a project in mind or want to collaborate? Feel free to reach
-            out. I'm always open to discussing new opportunities.
-          </p>
-        </motion.div>
+    <section id="contact" className="portfolio-contact" aria-labelledby="portfolio-contact-title">
+      <div className="page-shell">
+        <div className="portfolio-contact-top"><span className="section-label">LET’S TALK</span><span className="portfolio-contact-location"><MapPin size={13} aria-hidden="true" />Colombo, Sri Lanka</span></div>
+        <div className="portfolio-contact-grid">
+          <div className="portfolio-contact-copy">
+            <h2 id="portfolio-contact-title">Good things start<br />with a conversation<span>.</span></h2>
+            <p>Have a problem worth solving, an idea to explore, or a role in mind? I’d like to hear about it.</p>
+            <a className="portfolio-contact-email" href="mailto:vichakshaviduranga@gmail.com"><span>vichakshaviduranga@gmail.com</span><ArrowUpRight size={22} aria-hidden="true" /></a>
+            <div className="portfolio-contact-links">
+              <a href="https://www.linkedin.com/in/vichaksha-geekiyanage-a3b293227/" target="_blank" rel="noopener noreferrer"><Linkedin size={15} aria-hidden="true" />LinkedIn<ArrowUpRight size={13} aria-hidden="true" /></a>
+              <a href="https://github.com/devvicha" target="_blank" rel="noopener noreferrer"><Code2 size={16} aria-hidden="true" />GitHub<ArrowUpRight size={13} aria-hidden="true" /></a>
+              <a href="tel:+94771121545">+94 77 112 1545<ArrowUpRight size={13} aria-hidden="true" /></a>
+            </div>
+          </div>
 
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Contact Information */}
-          <motion.div
-            className="lg:w-5/12"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-2xl font-bold mb-6 text-white">Contact Information</h3>
-
-            <div className="space-y-6">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-purple-900/20 rounded-full flex items-center justify-center mr-4">
-                  <Mail className="w-5 h-5 text-purple-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Email</p>
-                  <a
-                    href="mailto:vichakshaviduranga@gmail.com"
-                    className="text-white hover:text-purple-400 transition-colors"
-                  >
-                    vichakshaviduranga@gmail.com
-                  </a>
-                </div>
+          <form ref={formRef} onSubmit={handleSubmit} noValidate className="portfolio-contact-form" aria-label="Send Vichaksha a message" aria-busy={isSubmitting}>
+            <div className="portfolio-contact-form-heading"><span>A NOTE TO MY INBOX</span><ArrowUpRight size={19} aria-hidden="true" /></div>
+            <div className="portfolio-contact-field-row">
+              <div className="portfolio-contact-field">
+                <label htmlFor="contact-name">Your name</label>
+                <input id="contact-name" name="your_name" autoComplete="name" value={formData.your_name} onChange={handleChange} maxLength={120} readOnly={isSubmitting} required placeholder="Alex Morgan" aria-invalid={Boolean(errors.your_name)} aria-describedby={errors.your_name ? "contact-name-error" : undefined} />
+                {errors.your_name && <p className="portfolio-contact-error" id="contact-name-error">{errors.your_name}</p>}
               </div>
-
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-purple-900/20 rounded-full flex items-center justify-center mr-4">
-                  <Phone className="w-5 h-5 text-purple-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Phone</p>
-                  <a
-                    href="tel:+94771121545"
-                    className="text-white hover:text-purple-400 transition-colors"
-                  >
-                    +94 77 112 1545
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-purple-900/20 rounded-full flex items-center justify-center mr-4">
-                  <MapPin className="w-5 h-5 text-purple-500" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">Location</p>
-                  <p className="text-white">Malabe, Colombo, Sri Lanka</p>
-                </div>
+              <div className="portfolio-contact-field">
+                <label htmlFor="contact-email">Email address</label>
+                <input id="contact-email" name="your_email" type="email" autoComplete="email" value={formData.your_email} onChange={handleChange} maxLength={254} readOnly={isSubmitting} required placeholder="alex@company.com" aria-invalid={Boolean(errors.your_email)} aria-describedby={errors.your_email ? "contact-email-error" : undefined} />
+                {errors.your_email && <p className="portfolio-contact-error" id="contact-email-error">{errors.your_email}</p>}
               </div>
             </div>
-
-            <div className="mt-10">
-              <h4 className="text-xl font-semibold mb-4 text-white">Connect With Me</h4>
-              <div className="flex space-x-4">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-400 hover:bg-purple-600 hover:text-white transition-all duration-300"
-                    aria-label={social.name}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
+            <div className="portfolio-contact-field">
+              <label htmlFor="contact-message">What do you have in mind?</label>
+              <textarea id="contact-message" name="message" rows={4} value={formData.message} onChange={handleChange} maxLength={5000} readOnly={isSubmitting} required placeholder="A little about your project, team, or idea…" aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? "contact-message-error" : undefined} />
+              {errors.message && <p className="portfolio-contact-error" id="contact-message-error">{errors.message}</p>}
             </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            className="lg:w-7/12 bg-gray-900/30 backdrop-blur-md p-8 rounded-xl border border-gray-800"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-2xl font-bold mb-6 text-white">Send a Message</h3>
-
-            <form onSubmit={handleSubmit} ref={formRef} noValidate>
-              <div className="mb-6">
-                <label htmlFor="your_name" className="block text-gray-400 mb-2">
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="your_name"
-                  name="your_name"
-                  value={formData.your_name}
-                  onChange={handleChange}
-                  required
-                  placeholder="Enter your name..."
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-                />
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="your_email" className="block text-gray-400 mb-2">
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="your_email"
-                  name="your_email"
-                  value={formData.your_email}
-                  onChange={handleChange}
-                  required
-                  placeholder="Enter your email..."
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white placeholder-gray-400"
-                />
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="message" className="block text-gray-400 mb-2">
-                  Your Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="4"
-                  placeholder="Hello, I'd like to talk about..."
-                  className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-white resize-none placeholder-gray-400"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`w-full py-3 px-6 rounded-lg font-medium flex items-center justify-center text-white transition-colors duration-300 ${
-                  isSubmitting
-                    ? "bg-purple-800 cursor-not-allowed"
-                    : "bg-purple-600 hover:bg-purple-700"
-                }`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="animate-spin mr-3 h-5 w-5" />
-                    Sending...
-                  </>
-                ) : (
-                  "Send Message"
-                )}
-              </button>
-            </form>
-
-            {formStatus?.type === "success" && (
-              <motion.p
-                className="mt-4 text-green-400 font-semibold"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                ✅ {formStatus.text}
-              </motion.p>
-            )}
-            {formStatus?.type === "error" && (
-              <motion.p
-                className="mt-4 text-red-400 font-semibold"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                ❌ {formStatus.text}
-              </motion.p>
-            )}
-          </motion.div>
+            <div className="portfolio-contact-form-bottom"><span>Straight to my inbox.</span><button type="submit" className="button button-dark" disabled={isSubmitting}>{isSubmitting ? <>Sending<Loader2 size={17} className="portfolio-spin" aria-hidden="true" /></> : <>Send message<ArrowUpRight size={18} aria-hidden="true" /></>}</button></div>
+            {formStatus && <p className={`portfolio-contact-status ${formStatus.type === "error" ? "is-error" : ""}`} role={formStatus.type === "error" ? "alert" : "status"}>{formStatus.type === "success" && <Check size={16} aria-hidden="true" />}{formStatus.text}</p>}
+          </form>
         </div>
       </div>
     </section>
   );
-};
-
-export default Contact;
+}

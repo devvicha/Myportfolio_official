@@ -1,147 +1,57 @@
-import React from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { ArrowDown, ArrowUpRight, AudioLines, MoveUpRight } from "lucide-react";
 import meImage from "../assets/me1.png";
-import { Mic, MessageSquare } from "lucide-react";
 
-// lucide-react deprecated its brand icons, so the GitHub mark is inline.
-const GithubMark = (props) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    {...props}
-  >
-    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-  </svg>
-);
-
-const Hero = () => {
+export default function Hero() {
+  const reduced = useReducedMotion();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(y, { stiffness: 100, damping: 25 });
+  const rotateY = useSpring(x, { stiffness: 100, damping: 25 });
+  const move = (event) => {
+    if (reduced || event.pointerType !== "mouse") return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    x.set(((event.clientX - rect.left) / rect.width - 0.5) * 5);
+    y.set(((event.clientY - rect.top) / rect.height - 0.5) * -5);
+  };
+  const entrance = { initial: { opacity: 0, y: reduced ? 0 : 20 }, animate: { opacity: 1, y: 0 } };
   return (
-    <section
-      className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden py-24 lg:py-0"
-      id="home"
-    >
-      <div className="container mx-auto px-6 z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-          {/* Left side - Text content */}
-          <div className="text-center lg:text-left flex-1">
-            <motion.div
-              className="flex items-center justify-center lg:justify-start gap-2.5 mb-5"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.8 }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-              <span className="text-purple-500 text-sm font-medium tracking-[0.08em] uppercase">
-                AI Engineer — production conversational agents
-              </span>
-            </motion.div>
-
-            <motion.h1
-              className="text-4xl md:text-6xl font-bold mb-6 text-white"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-            >
-              <span className="text-purple-500">Vichaksha</span> Viduranga
-            </motion.h1>
-
-            <motion.p
-              className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              I build LLM agents that run in front of real customers and are not
-              allowed to be wrong.
-            </motion.p>
-
-            <motion.p
-              className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto lg:mx-0 mb-9"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              A WhatsApp order agent on Meta's official Cloud API with structural
-              hallucination prevention and 603 passing tests. A multilingual
-              voice agent live on Cloud Run serving four configured personas. A
-              Whisper LoRA fine-tune for Sinhala, a low-resource language.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-wrap items-center justify-center lg:justify-start gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <a
-                href="https://voice-agent-frontend-5mtolu2zcq-uc.a.run.app/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-purple-600 hover:bg-purple-700 text-white py-3 px-7 rounded-full font-medium transition-colors duration-300 inline-flex items-center gap-2"
-              >
-                <Mic size={18} />
-                Talk to my voice agent
-              </a>
-
-              <button
-                type="button"
-                onClick={() =>
-                  window.dispatchEvent(new Event("open-ask-my-work"))
-                }
-                className="border border-gray-800 bg-gray-900/90 hover:border-purple-500 text-white py-3 px-7 rounded-full font-medium transition-colors duration-300 inline-flex items-center gap-2"
-              >
-                <MessageSquare size={18} />
-                Ask my work anything
-              </button>
-
-              <a
-                href="https://github.com/devvicha"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors duration-200 inline-flex items-center gap-2 py-3"
-              >
-                <GithubMark width={17} height={17} />
-                github.com/devvicha
-              </a>
-            </motion.div>
-          </div>
-
-          {/* Right side - Photo */}
-          <div className="flex justify-center lg:justify-end">
-            <motion.div
-              className="relative"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.1 }}
-              transition={{ duration: 0.9, delay: 0.4 }}
-            >
-              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[22rem] lg:h-[22rem] rounded-full overflow-hidden border border-gray-800 bg-black">
-                <img
-                  src={meImage}
-                  alt="Vichaksha Viduranga"
-                  className="w-full h-full object-contain object-center p-4 mt-8 -ml-3"
-                />
+    <section id="home" className="hero-section">
+      <div className="page-shell">
+        <div className="hero-grid">
+          <div className="hero-copy">
+            <motion.p {...entrance} transition={{ duration: 0.6 }} className="hero-eyebrow"><span className="status-dot" /> AI ENGINEER & CREATIVE PROBLEM SOLVER</motion.p>
+            <motion.h1 {...entrance} transition={{ duration: 0.7, delay: 0.08 }}>Intelligence.<br />Made <span className="hero-human">human<svg viewBox="0 0 360 18" aria-hidden="true"><path d="M4 12 Q162 -2 355 8" /></svg></span>.</motion.h1>
+            <motion.div {...entrance} transition={{ duration: 0.7, delay: 0.16 }}>
+              <p className="hero-intro">Hi, I’m Vichaksha.<span className="hello-mark" aria-hidden="true">✳</span></p>
+              <p className="hero-description">I build AI that works in the real world.<br className="desktop-break" /> Thoughtful agents, natural conversations,<br className="desktop-break" /> and systems people can depend on.</p>
+              <div className="hero-actions">
+                <a className="button button-dark" href="#projects">Explore my work <ArrowUpRight size={18} /></a>
+                <a className="hero-contact-link" href="#contact">Let’s talk <ArrowUpRight size={17} /></a>
               </div>
-
-              <div className="absolute inset-0 rounded-full ring-1 ring-purple-600/40 pointer-events-none" />
-
             </motion.div>
+            <motion.div {...entrance} transition={{ duration: 0.7, delay: 0.24 }} className="hero-location"><span>BASED IN SRI LANKA</span><span className="hero-location-line" /><span>BUILDING FOR PEOPLE, EVERYWHERE</span></motion.div>
           </div>
+          <motion.div {...entrance} transition={{ duration: 0.9, delay: 0.14 }} className="hero-art-wrap" onPointerMove={move} onPointerLeave={() => { x.set(0); y.set(0); }}>
+            <motion.div className="hero-art" style={reduced ? {} : { rotateX, rotateY }}>
+              <div className="portrait-meta"><span>A LITTLE CURIOSITY.<br />A LOT OF BUILDING.</span><MoveUpRight size={24} strokeWidth={1.3} /></div>
+              <div className="portrait-rings" aria-hidden="true"><i /><i /><i /></div>
+              <span className="portrait-word" aria-hidden="true">hello.</span>
+              <img className="hero-portrait" src={meImage} alt="Vichaksha Viduranga working on his laptop" width="760" height="820" fetchPriority="high" />
+              <div className="portrait-caption"><span>Vichaksha Viduranga</span><span>Engineer. Researcher. Human.</span></div>
+            </motion.div>
+            <a className="voice-preview" href="https://voice-agent-frontend-5mtolu2zcq-uc.a.run.app/" target="_blank" rel="noopener noreferrer">
+              <span className="voice-preview-icon"><AudioLines size={23} /></span>
+              <span><strong>Don’t just read. Have a conversation.</strong><small>Try my multilingual voice agent <ArrowUpRight size={13} /></small></span>
+            </a>
+          </motion.div>
+        </div>
+        <div className="hero-bottom">
+          <a href="#projects" className="scroll-hint"><span className="scroll-icon"><ArrowDown size={16} /></span>SCROLL TO EXPLORE</a>
+          <div className="hero-specialties"><span>CONVERSATIONAL AI</span><span className="specialty-dot">/</span><span>APPLIED ML</span><span className="specialty-dot">/</span><span>FULL-STACK SYSTEMS</span></div>
+          <span className="hero-edition">PORTFOLIO ’26</span>
         </div>
       </div>
-
     </section>
   );
-};
-
-export default Hero;
+}

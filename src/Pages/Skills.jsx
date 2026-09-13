@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import "../styles/story.css";
 
 // Grouped by evidence strength, not by invented percentages. A bar claiming
 // "LLM fine-tuning 68%" invites the question "68% of what?" — and a technical
@@ -74,53 +74,36 @@ const groups = [
   },
 ];
 
-const Skills = () => (
-  <section id="skills" className="py-20 bg-black">
-    <div className="container mx-auto px-6">
-      <motion.div
-        className="max-w-3xl mb-14"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: false, amount: 0.2 }}
-      >
-        <h2 className="text-4xl md:text-5xl font-bold mb-3 text-white">
-          My <span className="text-purple-500">Skills</span>
-        </h2>
-        <p className="text-gray-400 max-w-2xl text-lg">
-          Ordered by how much of it is backed by something shipped.
-        </p>
-      </motion.div>
-
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {groups.map((group, i) => (
-          <motion.div
-            key={group.key}
-            className="bg-gray-900/90 border border-gray-800 rounded-xl p-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
-          >
-            <div className="w-7 h-0.5 bg-purple-500 mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-1">{group.title}</h3>
-            <p className="text-gray-500 text-sm mb-5">{group.blurb}</p>
-
-            <div className="flex flex-wrap gap-2">
-              {group.items.map((item) => (
-                <span
-                  key={item}
-                  className="text-sm bg-gray-800 text-gray-300 px-2.5 py-1 rounded-md"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
+export default function Skills() {
+  const reducedMotion = useReducedMotion();
+  return (
+    <section id="skills" className="story-section story-skills" aria-labelledby="skills-heading">
+      <div className="page-shell">
+        <div className="section-heading story-split-heading">
+          <div>
+            <p className="section-label">Tools & expertise</p>
+            <h2 id="skills-heading" className="section-title">A practical toolkit.</h2>
+          </div>
+          <p className="story-heading-copy">From model to interface, with the infrastructure to make it useful. Ordered by the work I’ve shipped.</p>
+        </div>
+        <div className="story-skill-groups">
+          {groups.map((group, index) => (
+            <motion.div
+              className="story-skill-group"
+              key={group.key}
+              initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.45, delay: (index % 3) * 0.06 }}
+            >
+              <span className="story-skill-number" aria-hidden="true">0{index + 1}</span>
+              <h3>{group.title}</h3>
+              <p>{group.blurb}</p>
+              <ul className="story-skill-list">{group.items.map((item) => <li key={item}>{item}</li>)}</ul>
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
-
-export default Skills;
+    </section>
+  );
+}

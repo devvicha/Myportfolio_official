@@ -1,91 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
-
-const Navbar = () => {
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
+const links = [{ id: "projects", label: "Work" }, { id: "about", label: "About" }, { id: "experience", label: "Experience" }, { id: "research", label: "Research" }];
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
   const [scrolled, setScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
+  const toggleRef = useRef(null);
+  const navRef = useRef(null);
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const scroll = () => setScrolled(window.scrollY > 16);
+    scroll();
+    window.addEventListener("scroll", scroll, { passive: true });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) setActive(entry.target.id); });
+    }, { rootMargin: "-15% 0px -65% 0px", threshold: 0 });
+    document.querySelectorAll("main section[id]").forEach((section) => observer.observe(section));
+    return () => { window.removeEventListener("scroll", scroll); observer.disconnect(); };
   }, []);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
-
-  // Must match the section ids rendered in App.jsx, in page order.
-  const navItems = [
-    "home",
-    "projects",
-    "research",
-    "experience",
-    "speaking",
-    "contact",
-  ];
-
+  useEffect(() => {
+    if (!open) return;
+    const dismiss = (e) => {
+      if (e.key === "Escape") { setOpen(false); toggleRef.current?.focus(); }
+      if (e.type === "pointerdown" && !navRef.current?.contains(e.target)) setOpen(false);
+    };
+    const resize = () => { if (window.innerWidth > 800) setOpen(false); };
+    window.addEventListener("keydown", dismiss);
+    window.addEventListener("pointerdown", dismiss);
+    window.addEventListener("resize", resize);
+    return () => { window.removeEventListener("keydown", dismiss); window.removeEventListener("pointerdown", dismiss); window.removeEventListener("resize", resize); };
+  }, [open]);
   return (
-    <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "py-3 bg-black/50 backdrop-blur-md" : "py-5 bg-transparent"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
-        {/* Logo */}
-        <a href="#home" className="flex items-center space-x-2">
-          <span className="text-white font-bold text-xl">MY</span>
-          <span className="text-purple-500 font-bold text-xl">Portfolio</span>
-        </a>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex space-x-8">
-          {navItems.map((item) => (
-            <a
-              key={item}
-              href={`#${item}`}
-              className="text-white hover:text-purple-400 transition-colors"
-            >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
-            </a>
-          ))}
+    <header ref={navRef} className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
+      <nav className="page-shell nav-inner" aria-label="Main navigation">
+        <a href="#home" className="wordmark" aria-label="Vichaksha, home" onClick={() => setOpen(false)}>vichaksha<span className="wordmark-dot">.</span></a>
+        <div id="main-nav-links" className={`nav-links ${open ? "is-open" : ""}`}>
+          {links.map(({ id, label }) => <a key={id} href={`#${id}`} aria-current={active === id ? "location" : undefined} onClick={() => setOpen(false)}>{label}</a>)}
+          <a href="#contact" className="nav-contact" onClick={() => setOpen(false)}>Let’s connect <ArrowUpRight size={15} /></a>
         </div>
-
-        {/* Mobile Button */}
-        <div className="md:hidden">
-          <button
-            onClick={toggleMenu}
-            className="text-white focus:outline-none"
-          >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-black/90 backdrop-blur-md px-6 py-4 space-y-4 text-center">
-          {navItems.map((item) => (
-            <a
-              key={item}
-              href={`#${item}`}
-              onClick={closeMenu}
-              className="block text-white text-lg hover:text-purple-400 transition-colors"
-            >
-              {item.charAt(0).toUpperCase() + item.slice(1)}
-            </a>
-          ))}
-        </div>
-      )}
-    </nav>
+        <button ref={toggleRef} className="mobile-menu-toggle" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="main-nav-links" onClick={() => setOpen(!open)}>{open ? <X size={22} /> : <Menu size={22} />}</button>
+      </nav>
+    </header>
   );
-};
-
-export default Navbar;
+}

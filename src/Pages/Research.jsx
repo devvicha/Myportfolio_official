@@ -1,8 +1,8 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { FileText, Award } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Plus } from "lucide-react";
 import sicetAward from "../assets/sicet-award.jpg";
 import sicetConference from "../assets/sicet-conference.jpg";
+import "../styles/story.css";
 
 // Every entry needs a status. An unlabelled "under review" paper a reader
 // cannot find reads as inflation, which costs more than the line gains.
@@ -66,140 +66,62 @@ const writing = [
   },
 ];
 
-const Research = () => (
-  <section id="research" className="py-20 bg-black">
-    <div className="container mx-auto px-6">
-      <motion.div
-        className="max-w-3xl mb-14"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: false, amount: 0.2 }}
-      >
-        <h2 className="text-4xl md:text-5xl font-bold mb-3 text-white">
-          Research & <span className="text-purple-500">Writing</span>
-        </h2>
-        <p className="text-gray-400 max-w-2xl text-lg">
-          How I think about systems when they break, cost money, or have to be
-          handed to someone else.
-        </p>
-      </motion.div>
-
-      {papers.length > 0 && (
-        <div className="max-w-4xl mb-20">
-          <div className="flex items-center gap-2.5 mb-8">
-            <Award className="w-5 h-5 text-purple-500" />
-            <h3 className="text-xl font-semibold text-white">
-              Peer-reviewed publications
-            </h3>
+export default function Research() {
+  const reducedMotion = useReducedMotion();
+  return (
+    <section id="research" className="story-section story-research" aria-labelledby="research-heading">
+      <div className="page-shell">
+        <div className="section-heading story-split-heading">
+          <div>
+            <p className="section-label">Research & writing</p>
+            <h2 id="research-heading" className="section-title">Thinking beyond<br />the build.</h2>
           </div>
-
-          <div className="flex flex-col gap-6">
-            {papers.map((paper) => (
-              <motion.article
-                key={paper.title}
-                className="bg-gray-900/90 border border-gray-800 rounded-xl overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.5 }}
-              >
-                {paper.images && (
-                  <div className="grid grid-cols-2 gap-px bg-gray-800">
-                    {paper.images.map((img) => (
-                      <img
-                        key={img.alt}
-                        src={img.src}
-                        alt={img.alt}
-                        loading="lazy"
-                        className="w-full h-52 md:h-64 object-cover bg-black"
-                      />
-                    ))}
-                  </div>
-                )}
-
-                <div className="p-6 md:p-8">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
-                    <h4 className="text-xl font-semibold text-white leading-snug">
-                      {paper.title}
-                    </h4>
-                    <span className="text-purple-400 text-xs border border-purple-900 px-2.5 py-1 rounded-md shrink-0">
-                      {paper.status}
-                    </span>
-                  </div>
-
-                  <p className="text-gray-400 text-sm mb-2">{paper.venue}</p>
-                  <p className="text-gray-500 text-sm mb-4">{paper.authors}</p>
-
-                  {paper.note && (
-                    <p className="text-gray-400 leading-relaxed mb-4">
-                      {paper.note}
-                    </p>
-                  )}
-
-                  {paper.link && (
-                    <a
-                      href={paper.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-purple-400 hover:text-white transition-colors duration-200 text-sm"
-                    >
-                      Conference announcement →
-                    </a>
-                  )}
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="max-w-4xl">
-        <div className="flex items-center gap-2.5 mb-8">
-          <FileText className="w-5 h-5 text-purple-500" />
-          <h3 className="text-xl font-semibold text-white">
-            Engineering documents
-          </h3>
+          <p className="story-heading-copy">Exploring low-resource languages, documenting decisions, and making the next version better.</p>
         </div>
 
-        <div className="flex flex-col gap-6">
-          {writing.map((doc, i) => (
-            <motion.article
-              key={doc.title}
-              className="bg-gray-900/90 border border-gray-800 rounded-xl p-6 md:p-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
-            >
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-3">
-                <h4 className="text-xl font-semibold text-white">{doc.title}</h4>
-                <span className="text-gray-500 text-sm shrink-0">{doc.date}</span>
-              </div>
+        {papers.map((paper) => (
+          <motion.article
+            className="story-publication"
+            key={paper.title}
+            initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="story-publication-image">
+              <img src={paper.images[0].src} alt={paper.images[0].alt} loading="lazy" width="731" height="1300" />
+              <span className="story-photo-label">SICET 2026 · Malabe, Sri Lanka</span>
+            </div>
+            <div className="story-publication-content">
+              <div className="story-publication-meta"><span className="section-label">Peer-reviewed publication</span><span className="story-publication-year">2026</span></div>
+              <h3>{paper.title}</h3>
+              <span className="story-publication-status"><span aria-hidden="true" />{paper.status}</span>
+              <p className="story-publication-note">{paper.note}</p>
+              <details className="story-publication-details">
+                <summary>Publication details <Plus size={16} aria-hidden="true" /></summary>
+                <div><p>{paper.venue}</p><p className="story-authors">{paper.authors}</p><a href={paper.images[1].src} target="_blank" rel="noopener noreferrer" className="text-link">View participation certificate <ArrowUpRight size={15} aria-hidden="true" /></a></div>
+              </details>
+              <a href={paper.link} target="_blank" rel="noopener noreferrer" className="text-link story-publication-link">Conference announcement <ArrowUpRight size={17} aria-hidden="true" /></a>
+            </div>
+          </motion.article>
+        ))}
 
-              <p className="text-gray-400 leading-relaxed mb-4">{doc.summary}</p>
-
-              <div className="flex flex-wrap gap-2">
-                {doc.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-sm bg-gray-800 text-gray-300 px-2 py-1 rounded-md"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.article>
+        <div className="story-writing-heading"><h3>From the engineering notebook.</h3><span className="section-label">Selected internal writing</span></div>
+        <div className="story-writing-list">
+          {writing.map((doc, index) => (
+            <details className="story-writing-item" key={doc.title}>
+              <summary>
+                <span className="story-writing-number" aria-hidden="true">0{index + 1}</span>
+                <span className="story-writing-title">{doc.title}</span>
+                <span className="story-writing-date">{doc.date}</span>
+                <Plus className="story-writing-plus" size={19} aria-hidden="true" />
+              </summary>
+              <div className="story-writing-content"><p>{doc.summary}</p><div className="story-writing-tags">{doc.tags.map((tag) => <span className="tag" key={tag}>{tag}</span>)}</div></div>
+            </details>
           ))}
         </div>
-
-        <p className="text-gray-500 text-sm mt-8">
-          These documents live in private client repositories. Happy to walk
-          through any of them in an interview.
-        </p>
+        <p className="story-private-note">These documents live in private client repositories. Happy to walk through the thinking in an interview.</p>
       </div>
-    </div>
-  </section>
-);
-
-export default Research;
+    </section>
+  );
+}

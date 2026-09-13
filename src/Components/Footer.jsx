@@ -1,30 +1,14 @@
-import React from "react";
-import { ArrowUp } from "lucide-react";
-
-const Footer = () => {
-  const currentYear = new Date().getFullYear();
-
+import { ArrowUpRight, ArrowUp } from "lucide-react";
+export default function Footer() {
   return (
-    <footer className="bg-black py-6 border-t border-gray-800">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
-            © {currentYear} G.Vichaksha Viduranga. Designed & developed with passion.
-          </p>
-
-          <div className="flex space-x-4">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="text-gray-500 hover:text-purple-500 transition-colors"
-              aria-label="Back to top"
-            >
-              <ArrowUp className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
+    <footer className="site-footer">
+      <div className="page-shell footer-main">
+        <a href="#home" className="wordmark">vichaksha<span className="wordmark-dot">.</span></a>
+        <p>Made with care. Built with curiosity.</p>
+        <a className="text-link" href="https://github.com/devvicha" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={16} /></a>
+        <a className="text-link" href="https://www.linkedin.com/in/vichaksha-geekiyanage-a3b293227/" target="_blank" rel="noopener noreferrer">LinkedIn <ArrowUpRight size={16} /></a>
       </div>
+      <div className="page-shell footer-bottom"><span>© {new Date().getFullYear()} Vichaksha Viduranga</span><span>Sri Lanka · Open to the world</span><a href="#home">Back to top <ArrowUp size={14} /></a></div>
     </footer>
   );
-};
-
-export default Footer;
+}

@@ -1,11 +1,11 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Briefcase, GraduationCap } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Plus } from "lucide-react";
+import "../styles/story.css";
 
 const roles = [
   {
     title: "AI Engineer",
-    org: "Idea8 Pvt Ltd · Dialix",
+    org: "Idea8 Pvt Ltd",
     period: "2025 — present",
     points: [
       "Build and operate conversational agents for SME clients across food retail, cosmetics, banking, automotive and facilities.",
@@ -48,78 +48,53 @@ const education = [
   },
 ];
 
-const Experience = () => (
-  <section id="experience" className="py-20 bg-black">
-    <div className="container mx-auto px-6">
-      <motion.div
-        className="max-w-3xl mb-14"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: false, amount: 0.2 }}
-      >
-        <h2 className="text-4xl md:text-5xl font-bold mb-3 text-white">
-          Experience & <span className="text-purple-500">Education</span>
-        </h2>
-      </motion.div>
+export default function Experience() {
+  const reducedMotion = useReducedMotion();
+  return (
+    <section id="experience" className="story-section story-experience" aria-labelledby="experience-heading">
+      <div className="page-shell">
+        <motion.div
+          className="section-heading story-split-heading"
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div>
+            <p className="section-label">Experience & education</p>
+            <h2 id="experience-heading" className="section-title">The work behind<br />the work.</h2>
+          </div>
+          <p className="story-heading-copy">From the bank counter to production AI. Every role has shaped how I build for the people on the other side of the screen.</p>
+        </motion.div>
 
-      <div className="max-w-4xl">
-        <div className="flex items-center gap-2.5 mb-8">
-          <Briefcase className="w-5 h-5 text-purple-500" />
-          <h3 className="text-xl font-semibold text-white">Experience</h3>
-        </div>
-
-        <div className="flex flex-col gap-6 mb-16">
-          {roles.map((role, i) => (
-            <motion.div
-              key={role.title + role.org}
-              className="bg-gray-900/90 border border-gray-800 rounded-xl p-6 md:p-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-            >
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1">
-                <h4 className="text-xl font-semibold text-white">{role.title}</h4>
-                <span className="text-gray-500 text-sm shrink-0">{role.period}</span>
+        <div className="story-timeline" aria-label="Professional experience">
+          {roles.map((role, index) => (
+            <details className="story-role" key={role.title + role.org}>
+              <summary className="story-role-summary">
+                <span className="story-role-period"><span className={`story-timeline-dot ${index === 0 ? "story-dot-current" : ""}`} aria-hidden="true" />{role.period}</span>
+                <span className="story-role-main"><span className="story-role-title">{role.title}</span><span className="story-role-org">{role.org}</span></span>
+                <span className="story-detail-control"><span className="story-role-view">View role</span><Plus size={20} aria-hidden="true" /></span>
+              </summary>
+              <div className="story-role-detail">
+                <ul>{role.points.map((point) => <li key={point}>{point}</li>)}</ul>
               </div>
-              <p className="text-purple-400 text-sm mb-4">{role.org}</p>
-              <ul className="flex flex-col gap-2.5">
-                {role.points.map((point) => (
-                  <li key={point} className="flex gap-3 text-gray-400 leading-relaxed">
-                    <span className="text-purple-500 shrink-0 mt-1.5 w-1 h-1 rounded-full bg-purple-500" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
+            </details>
           ))}
         </div>
 
-        <div className="flex items-center gap-2.5 mb-8">
-          <GraduationCap className="w-5 h-5 text-purple-500" />
-          <h3 className="text-xl font-semibold text-white">Education</h3>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {education.map((item) => (
-            <motion.div
-              key={item.title}
-              className="bg-gray-900/90 border border-gray-800 rounded-xl p-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h4 className="text-lg font-semibold text-white mb-1">{item.title}</h4>
-              <p className="text-purple-400 text-sm mb-1">{item.org}</p>
-              <p className="text-gray-500 text-sm">{item.period}</p>
-            </motion.div>
-          ))}
+        <div className="story-education">
+          <h3 className="section-label">The foundations</h3>
+          <div className="story-education-list">
+            {education.map((item) => (
+              <div className="story-education-item" key={item.title}>
+                <p className="story-education-period">{item.period}</p>
+                <h4>{item.title}</h4>
+                <p>{item.org}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
-
-export default Experience;
+    </section>
+  );
+}

@@ -1,4 +1,4 @@
-import dialixImg from "../assets/dialix.jpg";
+import fathimaImg from "../assets/fathimas-story.jpg";
 import blogImg from "../assets/blog.jpg";
 import netflixImg from "../assets/netflix.jpg";
 import fetchMeImg from "../assets/fetchme.jpg";
@@ -13,14 +13,13 @@ export const projects = [
   {
     id: "whatsapp-agent",
     category: "ai",
-    title: "Dialix — WhatsApp Order Agent",
-    tagline: "An LLM agent that is not allowed to be wrong about money.",
+    title: "WhatsApp Order Agent",
+    tagline: "Client project — an LLM agent that is not allowed to be wrong about money.",
     description:
-      "Live on Meta's official Cloud API for a Sri Lankan food producer. Takes orders, prices them from a catalog, and escalates to a human — in Sinhala, Tamil and English. A wrong price in production led to a structural fact firewall: the model names the item, pricing.js decides what it costs, so a total cannot drift.",
-    image: dialixImg,
+      "Delivered at Idea8 for a Sri Lankan food producer, live on Meta's official Cloud API. Takes orders, prices them from a catalog, and escalates to a human — in Sinhala, Tamil and English. A wrong price in production led to a structural fact firewall: the model names the item, pricing.js decides what it costs, so a total cannot drift.",
+    image: fathimaImg,
     technologies: ["Meta Cloud API", "Gemini", "Node.js", "Redis", "Docker"],
-    metrics: ["603 tests", "si / ta / en", "live customers"],
-    demoLink: "https://dialix.dev/",
+    metrics: ["603 tests", "si / ta / en", "client project"],
     tryLink: "https://wa.me/94762002689",
     tryLabel: "Message the live agent",
     tryNote: "Live business line for Fathima's Products — a real shop, not a sandbox.",
