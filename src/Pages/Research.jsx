@@ -1,11 +1,30 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FileText } from "lucide-react";
+import { FileText, Award } from "lucide-react";
+import sicetAward from "../assets/sicet-award.jpg";
+import sicetConference from "../assets/sicet-conference.jpg";
 
-// Research papers render only when this array has entries. Every entry needs a
-// status — an unlabelled "under review" paper a reader cannot find reads as
-// inflation, which costs more than the line gains.
-const papers = [];
+// Every entry needs a status. An unlabelled "under review" paper a reader
+// cannot find reads as inflation, which costs more than the line gains.
+const papers = [
+  {
+    title:
+      "Enhancing Copyright Detection through Lyrics Analysis in Sinhala Song Audio",
+    venue:
+      "5th SLIIT International Conference on Engineering and Technology (SICET 2026) — Malabe, Sri Lanka, 1–4 September 2026",
+    status: "Published — Scopus indexed",
+    authors:
+      "Vichaksha Geekiyanage, Basuru Jagadakshi, Tharusha Piumitha, Chinthanie Weerakoon",
+    note:
+      "Copyright detection over Sinhala song audio by transcribing lyrics and analysing them — the applied end of the same low-resource speech problem as the Whisper LoRA fine-tune, which supplies the Sinhala transcription this depends on.",
+    link:
+      "https://www.linkedin.com/posts/vichaksha-geekiyanage-a3b293227_sicet2026-ai-ml-activity-7501471986838122497-iXPs",
+    images: [
+      { src: sicetConference, alt: "Presenting at SICET 2026, SLIIT Faculty of Engineering" },
+      { src: sicetAward, alt: "SICET 2026 author badge and certificate of participation" },
+    ],
+  },
+];
 
 // Internal engineering documents. The repositories are private client work, so
 // these are described, not linked.
@@ -67,25 +86,69 @@ const Research = () => (
       </motion.div>
 
       {papers.length > 0 && (
-        <div className="max-w-4xl mx-auto mb-16">
-          <h3 className="text-xl font-semibold text-white mb-6">Papers</h3>
-          <div className="flex flex-col gap-4">
+        <div className="max-w-4xl mx-auto mb-20">
+          <div className="flex items-center gap-2.5 mb-8">
+            <Award className="w-5 h-5 text-purple-500" />
+            <h3 className="text-xl font-semibold text-white">
+              Peer-reviewed publications
+            </h3>
+          </div>
+
+          <div className="flex flex-col gap-6">
             {papers.map((paper) => (
-              <div
+              <motion.article
                 key={paper.title}
-                className="bg-gray-900/90 border border-gray-800 rounded-xl p-6"
+                className="bg-gray-900/90 border border-gray-800 rounded-xl overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.5 }}
               >
-                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-2">
-                  <h4 className="text-lg font-semibold text-white">{paper.title}</h4>
-                  <span className="text-purple-400 text-xs border border-purple-900 px-2 py-1 rounded-md shrink-0">
-                    {paper.status}
-                  </span>
-                </div>
-                <p className="text-gray-400 text-sm mb-1">{paper.venue}</p>
-                {paper.authors && (
-                  <p className="text-gray-500 text-sm">{paper.authors}</p>
+                {paper.images && (
+                  <div className="grid grid-cols-2 gap-px bg-gray-800">
+                    {paper.images.map((img) => (
+                      <img
+                        key={img.alt}
+                        src={img.src}
+                        alt={img.alt}
+                        loading="lazy"
+                        className="w-full h-52 md:h-64 object-cover bg-black"
+                      />
+                    ))}
+                  </div>
                 )}
-              </div>
+
+                <div className="p-6 md:p-8">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+                    <h4 className="text-xl font-semibold text-white leading-snug">
+                      {paper.title}
+                    </h4>
+                    <span className="text-purple-400 text-xs border border-purple-900 px-2.5 py-1 rounded-md shrink-0">
+                      {paper.status}
+                    </span>
+                  </div>
+
+                  <p className="text-gray-400 text-sm mb-2">{paper.venue}</p>
+                  <p className="text-gray-500 text-sm mb-4">{paper.authors}</p>
+
+                  {paper.note && (
+                    <p className="text-gray-400 leading-relaxed mb-4">
+                      {paper.note}
+                    </p>
+                  )}
+
+                  {paper.link && (
+                    <a
+                      href={paper.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-white transition-colors duration-200 text-sm"
+                    >
+                      Conference announcement →
+                    </a>
+                  )}
+                </div>
+              </motion.article>
             ))}
           </div>
         </div>
