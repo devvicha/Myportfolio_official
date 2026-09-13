@@ -6,7 +6,7 @@ import {
   Phone,
   MapPin,
   Linkedin,
-  Twitter,
+  Code2,
   Instagram,
   Facebook,
   Loader2,
@@ -40,7 +40,11 @@ const Contact = () => {
       icon: <Linkedin className="w-5 h-5" />,
       url: "https://www.linkedin.com/in/vichaksha-geekiyanage-a3b293227/",
     },
-    { name: "Twitter", icon: <Twitter className="w-5 h-5" />, url: "https://twitter.com" },
+    {
+      name: "GitHub",
+      icon: <Code2 className="w-5 h-5" />,
+      url: "https://github.com/devvicha",
+    },
     {
       name: "Instagram",
       icon: <Instagram className="w-5 h-5" />,
@@ -168,7 +172,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Location</p>
-                  <p className="text-white">Malabe,Colombo,Sri Lanka</p>
+                  <p className="text-white">Malabe, Colombo, Sri Lanka</p>
                 </div>
               </div>
             </div>

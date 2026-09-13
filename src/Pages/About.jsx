@@ -1,6 +1,6 @@
 import React from "react";
 import { m, motion } from "framer-motion";
-import { Zap, LayoutDashboard, Smartphone, Download } from "lucide-react";
+import { Bot, BrainCircuit, Cpu, Download } from "lucide-react";
 import mycv from "../assets/CV.pdf";
 
 const About = () => {
@@ -55,19 +55,30 @@ const About = () => {
             transition={{ duration: 0.8 }}
           >
             <h3 className="text-2xl font-bold mb-4 text-center lg:text-left">
-              Future-Ready Developer & Problem Solver
+              I build agents that have to be right
             </h3>
 
             <p className="text-gray-300 mb-4 text-center lg:text-left">
-              I’m a Future-Ready Developer & Problem Solver passionate about building full-stack software solutions that seamlessly integrate with modern technologies. From crafting responsive web and mobile applications to developing scalable back-end systems, I focus on creating end-to-end products that deliver real impact.
+              Most of what I do is conversational AI that runs in production
+              for real businesses — WhatsApp order agents on Meta&#39;s official
+              Cloud API, and real-time voice agents on Gemini Live. Multilingual
+              by necessity: my users speak Sinhala, Tamil and English, often in
+              the same sentence.
             </p>
 
             <p className="text-gray-300 mb-6 text-center lg:text-left">
-              I have a strong interest in Machine Learning and AI, particularly in fine-tuning Large Language Models (LLMs) to adapt them for domain-specific tasks. Alongside AI, I also pursue projects in IoT development, blending hardware and intelligent software to design systems that improve daily life—from smart automation to elder-care solutions.
+              The interesting problem in this work is not making a model talk.
+              It is stopping it being confidently wrong about a price, a phone
+              number or an order — in front of a paying customer. I solve that
+              structurally rather than by prompting harder: the model chooses the
+              words, code decides the facts.
             </p>
 
             <p className="text-gray-300 mb-6 text-center lg:text-left">
-              Driven by curiosity and innovation, I aim to bridge full-stack engineering, AI, and IoT, building future-proof solutions that not only solve problems but also enhance user experience and accessibility.
+              Alongside that I train models rather than only calling them — a
+              Whisper LoRA fine-tune for Sinhala, YOLO pose estimation for
+              millimetre-accurate garment measurement — and I still enjoy the
+              hardware end, from ESP32 sensors to industrial PLC protocols.
             </p>
 
             <div className="flex justify-center lg:justify-start space-x-4">
@@ -99,22 +110,22 @@ const About = () => {
             <div className="grid grid-cols-1 gap-6">
               {[
   {
-    icon: <Zap className="w-6 h-6 text-blue-500" />,
-    title: "Fullstack Application Development",
-    desc: "Building scalable, end-to-end software solutions using modern frontend and backend technologies.",
-    bg: "bg-blue-500/20",
-  },
-  {
-    icon: <LayoutDashboard className="w-6 h-6 text-purple-500" />,
-    title: "AI/ML Integration & NLP",
-    desc: "Specialized in fine-tuning LLMs for domain-specific NLP tasks and integrating intelligent models into applications.",
+    icon: <Bot className="w-6 h-6 text-purple-500" />,
+    title: "Production Conversational Agents",
+    desc: "LLM agents on Meta's WhatsApp Cloud API and Gemini Live \u2014 grounded, multilingual, and built so a wrong fact cannot reach a customer.",
     bg: "bg-purple-500/20",
   },
   {
-    icon: <Smartphone className="w-6 h-6 text-pink-500" />,
-    title: "IoT System Development",
-    desc: "Designing smart systems with sensors, microcontrollers, and real-time communication for automation and accessibility.",
-    bg: "bg-pink-500/20",
+    icon: <BrainCircuit className="w-6 h-6 text-purple-500" />,
+    title: "Model Training & Fine-Tuning",
+    desc: "Parameter-efficient fine-tuning for low-resource languages, and computer-vision models trained on datasets I collected and annotated myself.",
+    bg: "bg-purple-500/20",
+  },
+  {
+    icon: <Cpu className="w-6 h-6 text-purple-500" />,
+    title: "Systems & Hardware",
+    desc: "The infrastructure underneath: FastAPI on Cloud Run, Docker, CI/CD \u2014 through to ESP32 sensors and industrial PLC protocols.",
+    bg: "bg-purple-500/20",
   },
 ].map((item, index) => (
                 <motion.div
