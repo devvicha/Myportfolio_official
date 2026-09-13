@@ -1,10 +1,10 @@
 // src/Pages/Projects.jsx
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { ArrowLeft, ArrowRight, ExternalLink, MessageCircle } from "lucide-react";
 import { PROJECT_GROUPS, byCategory } from "../assets/projects";
 
-const AUTOPLAY_MS = 8000;
+const AUTOPLAY_MS = 6000;
 
 const variants = {
   center: { x: 0, scale: 1, opacity: 1, zIndex: 10, pointerEvents: "auto", transition: { duration: 0.5 } },
@@ -125,6 +125,11 @@ const ProjectCarousel = ({ items, label }) => {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
   const touchStartX = useRef(null);
+  const rootRef = useRef(null);
+
+  // Rotation starts when the carousel is actually on screen and stops when it
+  // leaves, so nothing is spinning in a section nobody is looking at.
+  const inView = useInView(rootRef, { amount: 0.35 });
 
   const total = items.length;
 
@@ -137,12 +142,13 @@ const ProjectCarousel = ({ items, label }) => {
     [total]
   );
 
-  // Autoplay: slow, pauses on hover/focus, and off entirely for reduced motion.
+  // Autoplay runs only while in view, pauses on hover/focus, and is off
+  // entirely under prefers-reduced-motion.
   useEffect(() => {
-    if (paused || total < 2 || prefersReducedMotion()) return;
+    if (!inView || paused || total < 2 || prefersReducedMotion()) return;
     const id = setInterval(next, AUTOPLAY_MS);
     return () => clearInterval(id);
-  }, [paused, total, next]);
+  }, [inView, paused, total, next]);
 
   const onKeyDown = (e) => {
     if (e.key === "ArrowRight") {
@@ -174,6 +180,7 @@ const ProjectCarousel = ({ items, label }) => {
 
   return (
     <div
+      ref={rootRef}
       role="group"
       aria-roledescription="carousel"
       aria-label={label}
