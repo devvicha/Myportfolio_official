@@ -25,7 +25,6 @@ const App = () => (
     <main>
       <Hero />
       <ProofStrip />
-      <AskMyWork />
       <Projects />
       <Research />
       <Experience />
@@ -35,6 +34,7 @@ const App = () => (
       <Contact />
     </main>
     <Footer />
+    <AskMyWork />
   </div>
 );
 

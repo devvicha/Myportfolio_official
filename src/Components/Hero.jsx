@@ -93,13 +93,16 @@ const Hero = () => {
                 Talk to my voice agent
               </a>
 
-              <a
-                href="#ask"
+              <button
+                type="button"
+                onClick={() =>
+                  window.dispatchEvent(new Event("open-ask-my-work"))
+                }
                 className="border border-gray-800 bg-gray-900/90 hover:border-purple-500 text-white py-3 px-7 rounded-full font-medium transition-colors duration-300 inline-flex items-center gap-2"
               >
                 <MessageSquare size={18} />
                 Ask my work anything
-              </a>
+              </button>
 
               <a
                 href="https://github.com/devvicha"

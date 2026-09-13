@@ -25,7 +25,6 @@ const Navbar = () => {
   // Must match the section ids rendered in App.jsx, in page order.
   const navItems = [
     "home",
-    "ask",
     "projects",
     "research",
     "experience",
