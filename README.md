@@ -16,6 +16,7 @@ Open the URL printed by Vite, including `/Myportfolio_official/`. This base path
 
 ```sh
 npm run lint
+node --test src/lib/askApi.test.mjs
 npm run build
 npm run preview
 ```
@@ -40,7 +41,11 @@ The service response must include a nonempty `answer` string. Optional `sources`
 }
 ```
 
-Use an HTTPS service URL for the published site and allow its frontend origin (`https://devvicha.github.io`) in the backend CORS configuration. A localhost API URL works only on the machine running that backend. The repository contains the frontend; the agent service must run separately. Leave the URL blank to use the clearly labelled saved answers. Requests time out after 25 seconds; unavailable services and invalid responses also fall back to saved answers. Questions are limited to 1,000 characters.
+For the existing local backend, set `VITE_ASK_API_URL=http://localhost:8080` and open the frontend at `http://localhost:5173/Myportfolio_official/`. Its CORS allowlist accepts `http://localhost:5173`; `http://127.0.0.1:5173` is a different origin and is not currently allowed. The backend's `/health` endpoint reports whether the service is running and whether mock mode is enabled.
+
+Use an HTTPS service URL for the published site and allow its frontend origin (`https://devvicha.github.io`) in the backend CORS configuration. A localhost API URL works only on the machine running that backend. The repository contains the frontend; the agent service must run separately. Leave the URL blank to use the clearly labelled saved answers. Requests time out after 45 seconds, allowing time for the backend’s evidence check; unavailable services and invalid responses also fall back to saved answers. Questions are limited to 500 characters, matching the backend schema.
+
+The backend reports `mode` (`live`, `static`, or `mock`), `model`, and `grounded`. The UI shows the reported model after a live call and labels greetings, mock responses and unverified answers separately. Missing metadata never counts as proof of a live model call.
 
 ## Contact form
 

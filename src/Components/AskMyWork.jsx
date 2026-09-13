@@ -54,6 +54,7 @@ export default function AskMyWork() {
   const [turns, setTurns] = useState([]);
   const [busy, setBusy] = useState(false);
   const [connection, setConnection] = useState(getAskEndpoint(API_URL) ? "ready" : "offline");
+  const [model, setModel] = useState(null);
   const dialogRef = useRef(null);
   const inputRef = useRef(null);
   const endRef = useRef(null);
@@ -68,12 +69,15 @@ export default function AskMyWork() {
 
   useEffect(() => {
     const dialog = dialogRef.current;
+    const overflow = document.body.style.overflow;
     if (open && !dialog.open) {
       dialog.showModal();
       inputRef.current?.focus({ preventScroll: true });
     } else if (!open && dialog.open) {
       dialog.close();
     }
+    if (open) document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = overflow; };
   }, [open]);
 
   useEffect(() => {
@@ -104,7 +108,8 @@ export default function AskMyWork() {
       const answer = await requestAnswer(API_URL, q, { signal: controller.signal });
       if (controller.signal.aborted) return;
       setTurns((previous) => [...previous, { role: "assistant", ...answer }]);
-      setConnection("connected");
+      setConnection(answer.mode === "live" ? "connected" : answer.mode === "mock" ? "mock" : "ready");
+      setModel(answer.mode === "live" ? answer.model : null);
     } catch {
       if (controller.signal.aborted) return;
       setConnection("unavailable");
@@ -118,7 +123,8 @@ export default function AskMyWork() {
 
   const status = {
     ready: "Ask about the projects behind this portfolio",
-    connected: "Connected to the project assistant",
+    connected: model ? `Connected · ${model}` : "Connected to the project assistant",
+    mock: "Demo mode · no AI model was called",
     offline: "Live assistant not connected · saved answers available",
     unavailable: "Live assistant unavailable · saved answers available",
   }[connection];
@@ -183,7 +189,7 @@ export default function AskMyWork() {
               <div key={index} className="portfolio-ai-question"><span className="portfolio-visually-hidden">You: </span>{turn.text}</div>
             ) : (
               <div key={index} className="portfolio-ai-answer">
-                <span className="portfolio-ai-answer-label"><Sparkles size={12} aria-hidden="true" />{turn.saved ? "SAVED PROJECT NOTE" : "PROJECT ASSISTANT"}</span>
+                <span className="portfolio-ai-answer-label"><Sparkles size={12} aria-hidden="true" />{turn.saved ? "SAVED PROJECT NOTE" : turn.mode === "mock" ? "DEMO RESPONSE" : turn.mode === "static" ? "INTRODUCTION" : turn.grounded ? "PROJECT ASSISTANT" : "NOT VERIFIED IN THE RECORDS"}</span>
                 <p>{turn.answer}</p>
                 {turn.sources.length > 0 ? (
                   <details className="portfolio-ai-sources">

@@ -18,19 +18,19 @@
 .portfolio-contact-links a:hover { color: #20251f; }
 .portfolio-contact-form { min-width: 0; border: 1px solid #d6ddcb; background: rgba(247,248,242,.62); padding: 28px; border-radius: 18px; }
 .portfolio-contact-form-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
-.portfolio-contact-form-heading > span { font-family: var(--font-mono, ui-monospace, monospace); font-size: 10px; letter-spacing: .13em; color: #6c7562; }
+.portfolio-contact-form-heading > span { font-family: var(--mono, ui-monospace, monospace); font-size: 10px; letter-spacing: .13em; color: #5f6a54; }
 .portfolio-contact-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .portfolio-contact-field { min-width: 0; margin-bottom: 22px; }
 .portfolio-contact-field label { display: block; font-size: 12px; font-weight: 500; margin-bottom: 9px; }
 .portfolio-contact-field input, .portfolio-contact-field textarea { display: block; width: 100%; border: 1px solid #d7decc; background: #f7f8f2; border-radius: 7px; color: #20251f; padding: 12px 13px; font: inherit; font-size: 13px; line-height: 1.6; transition: border-color .2s ease, box-shadow .2s ease; }
 .portfolio-contact-field textarea { resize: vertical; min-height: 130px; max-height: 320px; }
-.portfolio-contact-field input::placeholder, .portfolio-contact-field textarea::placeholder { color: #777d70; opacity: 1; }
+.portfolio-contact-field input::placeholder, .portfolio-contact-field textarea::placeholder { color: #5f6a54; opacity: 1; }
 .portfolio-contact-field input:focus, .portfolio-contact-field textarea:focus { outline: none; border-color: #849667; box-shadow: 0 0 0 3px #d6ef9159; }
 .portfolio-contact-field [aria-invalid="true"] { border-color: #a05a49; }
 .portfolio-contact-field [readonly] { opacity: .7; }
 .portfolio-contact-error { margin: 7px 0 0; font-size: 11px; line-height: 1.5; color: #994b3c; }
 .portfolio-contact-form-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.portfolio-contact-form-bottom > span { font-size: 11px; color: #70766b; }
+.portfolio-contact-form-bottom > span { font-size: 11px; color: #5f6a54; }
 .portfolio-contact-form-bottom button { font-size: 12px; min-height: 43px; padding: 11px 17px; gap: 14px; }
 .portfolio-contact-form-bottom button:disabled { opacity: .6; cursor: wait; }
 .portfolio-contact-status { display: flex; align-items: flex-start; gap: 8px; margin: 20px 0 0; border-top: 1px solid #d6ddcb; padding-top: 15px; color: #45612d; font-size: 12px; line-height: 1.65; }
@@ -51,13 +51,13 @@
 .portfolio-ai-avatar { width: 40px; height: 40px; display: grid; place-items: center; background: #e7ecde; border: 1px solid #dce4d0; border-radius: 50%; flex-shrink: 0; }
 .portfolio-ai-heading { flex: 1; min-width: 0; }
 .portfolio-ai-heading h2 { margin: 0 0 4px; font-size: 15px; font-weight: 550; letter-spacing: -.025em; }
-.portfolio-ai-heading p { margin: 0; font-size: 9px; line-height: 1.5; color: #70766b; }
-.portfolio-ai-close { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: #70766b; cursor: pointer; flex-shrink: 0; }
+.portfolio-ai-heading p { margin: 0; font-size: 9px; line-height: 1.5; color: #5f6a54; }
+.portfolio-ai-close { display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: #5f6a54; cursor: pointer; flex-shrink: 0; }
 .portfolio-ai-close:hover { background: #e7ecde; color: #20251f; }
 .portfolio-ai-scroll { padding: 25px 22px; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #c7cfbc transparent; }
-.portfolio-ai-intro > .section-label { font-size: 9px; letter-spacing: .14em; color: #70766b; }
+.portfolio-ai-intro > .section-label { font-size: 9px; letter-spacing: .14em; color: #5f6a54; }
 .portfolio-ai-intro > p { margin: 14px 0 12px; font-size: 27px; line-height: 1.2; font-weight: 450; letter-spacing: -.04em; }
-.portfolio-ai-intro > span:last-child { display: block; color: #70766b; font-size: 12px; line-height: 1.7; max-width: 280px; }
+.portfolio-ai-intro > span:last-child { display: block; color: #5f6a54; font-size: 12px; line-height: 1.7; max-width: 280px; }
 .portfolio-ai-suggestions { display: flex; flex-direction: column; gap: 7px; margin: 24px 0; }
 .portfolio-ai-suggestions button { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; padding: 10px 12px; border: 1px solid #dfe3d8; border-radius: 7px; background: #fffef8; color: #555e4c; text-align: left; font-size: 11px; line-height: 1.5; cursor: pointer; transition: border-color .2s ease, background .2s ease; }
 .portfolio-ai-suggestions button > svg { flex-shrink: 0; color: #7e8a70; }
@@ -66,9 +66,9 @@
 .portfolio-ai-turns { display: flex; flex-direction: column; gap: 22px; }
 .portfolio-ai-question { align-self: flex-end; max-width: 90%; padding: 12px 15px; border-radius: 13px 13px 3px 13px; background: #e7ecde; font-size: 12px; line-height: 1.7; overflow-wrap: anywhere; }
 .portfolio-ai-answer { min-width: 0; }
-.portfolio-ai-answer-label { display: flex; align-items: center; gap: 7px; font-family: var(--font-mono, ui-monospace, monospace); color: #68755a; font-size: 8px; letter-spacing: .1em; }
+.portfolio-ai-answer-label { display: flex; align-items: center; gap: 7px; font-family: var(--mono, ui-monospace, monospace); color: #68755a; font-size: 8px; letter-spacing: .1em; }
 .portfolio-ai-answer > p { margin: 10px 0 12px; font-size: 12px; line-height: 1.85; color: #4f5847; overflow-wrap: anywhere; white-space: pre-wrap; }
-.portfolio-ai-sources { border-top: 1px solid #e2e6dc; padding-top: 10px; color: #727b67; }
+.portfolio-ai-sources { border-top: 1px solid #e2e6dc; padding-top: 10px; color: #5f6a54; }
 .portfolio-ai-sources summary { width: fit-content; display: flex; align-items: center; gap: 6px; list-style: none; font-size: 10px; cursor: pointer; }
 .portfolio-ai-sources summary::-webkit-details-marker { display: none; }
 .portfolio-ai-sources summary::after { content: "+"; padding-left: 4px; }
@@ -77,16 +77,16 @@
 .portfolio-ai-tools { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; font-size: 9px; }
 .portfolio-ai-tools > span { font-weight: 600; }
 .portfolio-ai-tools code { overflow-wrap: anywhere; }
-.portfolio-ai-no-sources { color: #70766b; font-size: 10px; }
-.portfolio-ai-thinking { display: flex; align-items: center; gap: 8px; color: #70766b; font-size: 11px; }
+.portfolio-ai-no-sources { color: #5f6a54; font-size: 10px; }
+.portfolio-ai-thinking { display: flex; align-items: center; gap: 8px; color: #5f6a54; font-size: 11px; }
 .portfolio-ai-form { padding: 16px 20px 14px; border-top: 1px solid #dfe3d8; background: #f7f8f2; flex-shrink: 0; }
 .portfolio-ai-input-wrap { display: flex; align-items: center; gap: 8px; background: #fffef8; padding: 6px 7px 6px 13px; border: 1px solid #d8dfcc; border-radius: 10px; }
 .portfolio-ai-input-wrap:focus-within { border-color: #819759; box-shadow: 0 0 0 3px #d6ef913a; }
 .portfolio-ai-input-wrap input { min-width: 0; flex: 1; border: 0; outline: none; background: transparent; font: inherit; font-size: 12px; color: #20251f; padding: 5px 0; }
-.portfolio-ai-input-wrap input::placeholder { color: #7a8271; opacity: 1; }
+.portfolio-ai-input-wrap input::placeholder { color: #5f6a54; opacity: 1; }
 .portfolio-ai-input-wrap button { width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 6px; background: #20251f; color: #d6ef91; cursor: pointer; flex-shrink: 0; }
 .portfolio-ai-input-wrap button:disabled { background: #e7ecde; color: #a2ac94; cursor: default; }
-.portfolio-ai-form > p { display: flex; justify-content: center; gap: 5px; margin: 10px 0 0; color: #7a8271; font-size: 9px; }
+.portfolio-ai-form > p { display: flex; justify-content: center; gap: 5px; margin: 10px 0 0; color: #5f6a54; font-size: 9px; }
 .portfolio-ai-form > p a { display: inline-flex; align-items: center; gap: 2px; color: #505d42; }
 
 @media (max-width: 1050px) {

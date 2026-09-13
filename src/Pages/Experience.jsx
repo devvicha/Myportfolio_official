@@ -4,22 +4,22 @@ import "../styles/story.css";
 
 const roles = [
   {
-    title: "AI Engineer",
-    org: "Idea8 Pvt Ltd",
-    period: "2025 — present",
+    title: "Associate AI/ML Engineer",
+    org: "Surge Robotics (formerly Idea8)",
+    period: "Intern → Associate",
+    current: true,
+    progression: "Joined as an intern and was promoted to Associate AI/ML Engineer. Idea8 was later acquired by Surge Robotics.",
     points: [
       "Build and operate conversational agents for SME clients across food retail, cosmetics, banking, automotive and facilities.",
       "Largest contributor on the flagship WhatsApp order agent — structural hallucination prevention, a multi-provider LLM failover chain with per-provider circuit breakers, and a 603-test regression suite.",
       "Sole author of the FastAPI voice-agent backend now serving four configured personas on Cloud Run.",
       "Led the garment-measurement computer-vision system: YOLO pose estimation, segmentation and Charuco calibration to a 1mm target.",
       "Migrated the WhatsApp platform off an unofficial client to Meta's official Cloud API following a production ban, and wrote the postmortem.",
-    ],
-  },
-  {
-    title: "Software Engineering Intern",
-    org: "NAITA",
-    period: "2025",
-    points: [
+      "Build conversational agents with LangChain, focusing on cost efficiency, robustness and production readiness while reducing hallucinations.",
+      "Test RAG systems and AI agent workflows, including tool calling and MCP server integrations.",
+      "Connect conversational agents to order management and tracking systems, dashboards and backend databases.",
+      "Implement SQL tables for conversation context management and work with monitoring tools to inspect agent behaviour.",
+      "Work on recommendation systems for conversational agents, alongside research experience in model and LLM fine-tuning and quantization.",
       "Built a Sinhala bank voice-agent simulator with a strict JSON response contract, intent and entity extraction, and domain safety rules for a regulated vertical.",
       "Wrote the production-bug resolution plan for a live cosmetics WhatsApp bot — four bugs traced to a single root cause, with a reversible remediation plan.",
       "Onboarded OPC UA and Snap7 PLC loading on an industrial SCADA control panel.",
@@ -68,14 +68,15 @@ export default function Experience() {
         </motion.div>
 
         <div className="story-timeline" aria-label="Professional experience">
-          {roles.map((role, index) => (
+          {roles.map((role) => (
             <details className="story-role" key={role.title + role.org}>
               <summary className="story-role-summary">
-                <span className="story-role-period"><span className={`story-timeline-dot ${index === 0 ? "story-dot-current" : ""}`} aria-hidden="true" />{role.period}</span>
+                <span className="story-role-period"><span className={`story-timeline-dot ${role.current ? "story-dot-current" : ""}`} aria-hidden="true" />{role.period}</span>
                 <span className="story-role-main"><span className="story-role-title">{role.title}</span><span className="story-role-org">{role.org}</span></span>
                 <span className="story-detail-control"><span className="story-role-view">View role</span><Plus size={20} aria-hidden="true" /></span>
               </summary>
               <div className="story-role-detail">
+                {role.progression && <p className="story-role-progression">{role.progression}</p>}
                 <ul>{role.points.map((point) => <li key={point}>{point}</li>)}</ul>
               </div>
             </details>

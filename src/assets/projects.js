@@ -16,7 +16,7 @@ export const projects = [
     title: "WhatsApp Order Agent",
     tagline: "Built to a customer request, live in production today.",
     description:
-      "Built at Idea8 to a customer request and now running in production on Meta's official Cloud API, taking real orders in Sinhala, Tamil and English. Deployed as a containerised service behind API-key authenticated webhooks, with credentials held outside the repository and CI/CD carrying tagged rollbacks. A wrong price in production led to a structural fact firewall: the model names the item, pricing.js decides what it costs, so a total cannot drift.",
+      "Built at Surge Robotics to a customer request and now running in production on Meta's official Cloud API, taking real orders in Sinhala, Tamil and English. Deployed as a containerised service behind API-key authenticated webhooks, with credentials held outside the repository and CI/CD carrying tagged rollbacks. A wrong price in production led to a structural fact firewall: the model names the item, pricing.js decides what it costs, so a total cannot drift.",
     image: fathimaImg,
     technologies: ["Meta Cloud API", "Gemini", "Node.js", "Redis", "Docker"],
     metrics: ["live in production", "603 tests", "si / ta / en"],
@@ -91,7 +91,7 @@ export const projects = [
     title: "Cosmetics & Bathware WhatsApp Bots",
     tagline: "The same agent platform, redeployed per client.",
     description:
-      "Contributor on Idea8's WhatsApp bot platform across cosmetics and bathware retail — catalog handling, multi-image album replies, order capture and human handover. Shared runtime, per-client knowledge and prompts.",
+      "Contributor on Surge Robotics' WhatsApp bot platform across cosmetics and bathware retail — catalog handling, multi-image album replies, order capture and human handover. Shared runtime, per-client knowledge and prompts.",
     image: null,
     technologies: ["Node.js", "Gemini", "WhatsApp", "MongoDB"],
     metrics: ["team project", "2 verticals"],

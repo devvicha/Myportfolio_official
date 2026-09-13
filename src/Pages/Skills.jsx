@@ -1,31 +1,38 @@
 import { motion, useReducedMotion } from "framer-motion";
 import "../styles/story.css";
 
-// Grouped by evidence strength, not by invented percentages. A bar claiming
-// "LLM fine-tuning 68%" invites the question "68% of what?" — and a technical
-// interviewer reads the answer as naive.
+// Keep production, research and tested workflows distinct; no proficiency scores.
 const groups = [
   {
     key: "production-ai",
-    title: "Production AI",
-    blurb: "What I do daily, in front of real users.",
+    title: "Conversational AI",
+    blurb: "Production chatbots and tested agent workflows.",
     items: [
       "LLM agents",
+      "LangChain",
       "Prompt engineering",
-      "RAG & knowledge grounding",
-      "Hallucination prevention",
+      "RAG & grounding (tested)",
+      "Hallucination reduction",
+      "Knowledge grounding",
+      "Guardrails in code",
       "Function / tool calling",
+      "Agent workflow testing",
+      "Incident replay testing",
+      "MCP integrations (tested)",
       "Token-cost optimisation",
+      "Chat agent recommendations",
       "Human escalation design",
     ],
   },
   {
     key: "ml",
     title: "Machine Learning",
-    blurb: "Models I have trained, not only called.",
+    blurb: "Model training and research experience.",
     items: [
       "PyTorch",
       "HuggingFace Transformers",
+      "Model / LLM fine-tuning",
+      "Quantization (research)",
       "PEFT / LoRA",
       "Whisper ASR",
       "YOLO pose & detection",
@@ -36,34 +43,37 @@ const groups = [
   {
     key: "platforms",
     title: "AI Platforms",
-    blurb: "Shipped on all of these.",
+    blurb: "Platforms used across speech and chat systems.",
     items: [
       "Google Vertex AI",
       "Gemini Live API",
       "Azure AI Speech",
       "OpenAI API",
       "Meta WhatsApp Cloud API",
+      "LangSmith tracing",
     ],
   },
   {
     key: "backend",
     title: "Backend & Infrastructure",
-    blurb: "Where the agents actually run.",
+    blurb: "Agent services, context and operational visibility.",
     items: [
       "Python / FastAPI",
       "Node.js",
       "PostgreSQL",
+      "SQL context management",
       "Redis",
       "Docker",
       "Google Cloud Run",
       "GitHub Actions",
       "REST APIs",
+      "Observability & dead-letter queues",
     ],
   },
   {
     key: "frontend",
     title: "Frontend",
-    blurb: "Interfaces for the systems above.",
+    blurb: "Interfaces and dashboards connected to agent backends.",
     items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "React Native"],
   },
   {
@@ -84,7 +94,7 @@ export default function Skills() {
             <p className="section-label">Tools & expertise</p>
             <h2 id="skills-heading" className="section-title">A practical toolkit.</h2>
           </div>
-          <p className="story-heading-copy">From model to interface, with the infrastructure to make it useful. Ordered by the work I’ve shipped.</p>
+          <p className="story-heading-copy">From model to interface, with the infrastructure to make it useful. A mix of production work, research and tested workflows.</p>
         </div>
         <div className="story-skill-groups">
           {groups.map((group, index) => (

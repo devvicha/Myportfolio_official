@@ -1,4 +1,4 @@
-export const ASK_MAX_LENGTH = 1000;
+export const ASK_MAX_LENGTH = 500;
 
 // Accept the configured service origin or its complete endpoint.
 export function getAskEndpoint(apiUrl) {
@@ -10,12 +10,12 @@ export function getAskEndpoint(apiUrl) {
 const stringList = (value) =>
   Array.isArray(value) ? value.filter((item) => typeof item === "string" && item.trim()) : [];
 
-export async function requestAnswer(apiUrl, question, { signal, timeoutMs = 25000 } = {}) {
+export async function requestAnswer(apiUrl, question, { signal, timeoutMs = 45000 } = {}) {
   const endpoint = getAskEndpoint(apiUrl);
   const cleanQuestion = question.trim();
   if (!endpoint) throw new Error("The assistant is not configured.");
   if (!cleanQuestion || cleanQuestion.length > ASK_MAX_LENGTH) {
-    throw new Error("Please enter a question of up to 1,000 characters.");
+    throw new Error("Please enter a question of up to 500 characters.");
   }
 
   const controller = new AbortController();
@@ -44,6 +44,9 @@ export async function requestAnswer(apiUrl, question, { signal, timeoutMs = 2500
       answer: data.answer.trim(),
       sources: stringList(data.sources),
       tools: stringList(data.tools),
+      grounded: data.grounded === true,
+      mode: ["live", "static", "mock"].includes(data.mode) ? data.mode : "unknown",
+      model: typeof data.model === "string" ? data.model : null,
     };
   } catch (error) {
     if (timedOut) throw new Error("The assistant took too long to respond.");

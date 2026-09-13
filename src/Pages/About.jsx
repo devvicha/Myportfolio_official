@@ -26,9 +26,10 @@ export default function About() {
 
         <div className="story-about-copy">
           <p className="story-lead">I build agents that have to be right.</p>
-          <p>Most of my work is conversational AI for real businesses: WhatsApp order agents on Meta’s official Cloud API and real-time voice agents on Gemini Live. My users speak Sinhala, Tamil and English, often in the same sentence.</p>
-          <p>The interesting problem is keeping an agent from being confidently wrong about a price, a phone number or an order. I approach that through the system’s structure: let the model handle the conversation, and let code verify the facts.</p>
-          <p>I also train models, from Whisper LoRA for Sinhala speech to YOLO pose estimation for garment measurement. And I still enjoy the hardware end: ESP32 sensors, industrial PLC protocols, and the space where software meets the physical world.</p>
+          <p>I’m an Associate AI/ML Engineer, following an internship at Surge Robotics. I build conversational agents with LangChain, alongside WhatsApp order agents on Meta’s official Cloud API and voice agents on Gemini Live. My users speak Sinhala, Tamil and English, often in the same sentence.</p>
+          <p>My focus is robust, cost-efficient chatbots that reduce hallucinations: let the model handle the conversation, and let code verify the facts. I work with SQL tables for context, monitoring tools and recommendation systems for chat agents.</p>
+          <p>I’ve tested RAG systems, agent workflows, tool calling and MCP server integrations for order management and tracking, connecting them with dashboards and backend databases.</p>
+          <p>My research background includes model and LLM fine-tuning and quantization, with work on Whisper LoRA for Sinhala speech. I also work with YOLO pose estimation for garment measurement, ESP32 sensors and industrial PLC protocols.</p>
           <div className="story-about-actions">
             <a href="#contact" className="button button-dark">Let’s talk <ArrowUpRight size={17} aria-hidden="true" /></a>
             <a href={mycv} download="Vichaksha-Geekiyanage-CV.pdf" className="text-link">Download CV <ArrowDownToLine size={16} aria-hidden="true" /></a>

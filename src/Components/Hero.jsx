@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowUpRight, AudioLines, MoveUpRight } from "lucide-react";
-import meImage from "../assets/me1.png";
+import meImage from "../assets/me1-restored.webp";
 
 export default function Hero() {
   const reduced = useReducedMotion();
