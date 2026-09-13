@@ -48,10 +48,10 @@ export default function Speaking() {
   }, [openIndex]);
 
   return (
-    <section id="speaking" className="py-24 bg-black">
+    <section id="speaking" className="py-20 bg-black">
       <div className="container mx-auto px-6">
         <motion.div
-          className="text-center mb-14"
+          className="max-w-3xl mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -60,14 +60,14 @@ export default function Speaking() {
           <h2 className="text-4xl md:text-5xl font-bold mb-3 text-white">
             Speaking & <span className="text-purple-500">Community</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-400 max-w-2xl text-lg">
             Six years of running events, hosting webinars and leading student
             chapters — the part of engineering that happens in front of people.
           </p>
         </motion.div>
 
         {/* Leadership record */}
-        <div className="max-w-4xl mx-auto mb-16">
+        <div className="max-w-4xl mb-16">
           <div className="flex items-center gap-2.5 mb-6">
             <Users className="w-5 h-5 text-purple-500" />
             <h3 className="text-xl font-semibold text-white">Leadership</h3>

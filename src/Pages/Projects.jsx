@@ -23,41 +23,43 @@ const ProjectCard = ({ project, isActive }) => {
   const tab = isActive ? 0 : -1;
 
   return (
-    <div className="w-96 bg-gray-900/90 rounded-xl overflow-hidden border border-gray-800 shadow-lg">
-      <div className="relative h-56 overflow-hidden bg-gray-800">
-        {project.image ? (
+    <div className="w-96 bg-gray-900/90 rounded-xl overflow-hidden border border-gray-800">
+      {project.image ? (
+        <div className="relative h-52 overflow-hidden bg-black">
           <img
             src={project.image}
             alt={project.title}
             loading="lazy"
             className="w-full h-full object-cover"
           />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center px-8 text-center">
-            <span className="text-gray-500 text-sm">{project.title}</span>
-          </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="h-0.5 w-full bg-purple-600/70" />
+      )}
 
-      <div className="p-6">
-        <div className="flex flex-wrap gap-2 mb-4">
+      <div className="p-7">
+        <div className="flex flex-wrap gap-1.5 mb-5">
           {project.technologies.map((tech) => (
             <span
               key={tech}
-              className="text-sm bg-gray-800 text-gray-300 px-2 py-1 rounded-md"
+              className="text-xs bg-gray-800 text-gray-400 px-2 py-1 rounded"
             >
               {tech}
             </span>
           ))}
         </div>
 
-        <h3 className="text-2xl font-semibold text-white mb-1">{project.title}</h3>
+        <h3 className="text-xl font-semibold text-white mb-1.5 leading-snug">
+          {project.title}
+        </h3>
 
         {project.tagline && (
-          <p className="text-purple-400 text-sm mb-3">{project.tagline}</p>
+          <p className="text-purple-400 text-sm mb-4 leading-snug">{project.tagline}</p>
         )}
 
-        <p className="text-gray-400 text-base mb-4">{project.description}</p>
+        <p className="text-gray-400 text-sm leading-relaxed mb-5">
+          {project.description}
+        </p>
 
         {project.metrics && project.metrics.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
@@ -254,10 +256,10 @@ const ProjectCarousel = ({ items, label }) => {
 };
 
 const Projects = () => (
-  <section id="projects" className="py-24 bg-black">
+  <section id="projects" className="py-20 bg-black">
     <div className="container mx-auto px-6">
       <motion.div
-        className="text-center mb-14"
+        className="max-w-3xl mb-16"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -292,7 +294,7 @@ const Projects = () => (
       </div>
 
       <motion.div
-        className="text-center mt-20"
+        className="mt-20"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}

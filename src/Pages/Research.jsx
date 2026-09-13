@@ -67,10 +67,10 @@ const writing = [
 ];
 
 const Research = () => (
-  <section id="research" className="py-24 bg-black">
+  <section id="research" className="py-20 bg-black">
     <div className="container mx-auto px-6">
       <motion.div
-        className="text-center mb-14"
+        className="max-w-3xl mb-14"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -79,14 +79,14 @@ const Research = () => (
         <h2 className="text-4xl md:text-5xl font-bold mb-3 text-white">
           Research & <span className="text-purple-500">Writing</span>
         </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+        <p className="text-gray-400 max-w-2xl text-lg">
           How I think about systems when they break, cost money, or have to be
           handed to someone else.
         </p>
       </motion.div>
 
       {papers.length > 0 && (
-        <div className="max-w-4xl mx-auto mb-20">
+        <div className="max-w-4xl mb-20">
           <div className="flex items-center gap-2.5 mb-8">
             <Award className="w-5 h-5 text-purple-500" />
             <h3 className="text-xl font-semibold text-white">
@@ -154,7 +154,7 @@ const Research = () => (
         </div>
       )}
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl">
         <div className="flex items-center gap-2.5 mb-8">
           <FileText className="w-5 h-5 text-purple-500" />
           <h3 className="text-xl font-semibold text-white">

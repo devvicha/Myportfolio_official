@@ -75,10 +75,10 @@ const groups = [
 ];
 
 const Skills = () => (
-  <section id="skills" className="py-24 bg-black">
+  <section id="skills" className="py-20 bg-black">
     <div className="container mx-auto px-6">
       <motion.div
-        className="text-center mb-14"
+        className="max-w-3xl mb-14"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -87,12 +87,12 @@ const Skills = () => (
         <h2 className="text-4xl md:text-5xl font-bold mb-3 text-white">
           My <span className="text-purple-500">Skills</span>
         </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+        <p className="text-gray-400 max-w-2xl text-lg">
           Ordered by how much of it is backed by something shipped.
         </p>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {groups.map((group, i) => (
           <motion.div
             key={group.key}

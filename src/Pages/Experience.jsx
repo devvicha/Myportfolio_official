@@ -49,10 +49,10 @@ const education = [
 ];
 
 const Experience = () => (
-  <section id="experience" className="py-24 bg-black">
+  <section id="experience" className="py-20 bg-black">
     <div className="container mx-auto px-6">
       <motion.div
-        className="text-center mb-14"
+        className="max-w-3xl mb-14"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -63,7 +63,7 @@ const Experience = () => (
         </h2>
       </motion.div>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl">
         <div className="flex items-center gap-2.5 mb-8">
           <Briefcase className="w-5 h-5 text-purple-500" />
           <h3 className="text-xl font-semibold text-white">Experience</h3>

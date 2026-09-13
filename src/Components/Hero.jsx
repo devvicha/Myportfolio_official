@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import meImage from "../assets/me1.png";
-import { ChevronDown, Mic, MessageSquare } from "lucide-react";
+import { Mic, MessageSquare } from "lucide-react";
 
 // lucide-react deprecated its brand icons, so the GitHub mark is inline.
 const GithubMark = (props) => (
@@ -120,14 +120,12 @@ const Hero = () => {
           <div className="flex justify-center lg:justify-end">
             <motion.div
               className="relative"
-              initial={{ opacity: 0, scale: 1, rotate: -10 }}
-              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: false, amount: 0.1 }}
-              transition={{ duration: 1, delay: 0.5, type: "spring", stiffness: 100 }}
+              transition={{ duration: 0.9, delay: 0.4 }}
             >
-              <div className="absolute inset-0 bg-purple-600 rounded-full blur-2xl opacity-20" />
-
-              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-purple-500 shadow-2xl bg-black">
+              <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[22rem] lg:h-[22rem] rounded-full overflow-hidden border border-gray-800 bg-black">
                 <img
                   src={meImage}
                   alt="Vichaksha Viduranga"
@@ -135,40 +133,13 @@ const Hero = () => {
                 />
               </div>
 
-              <motion.div
-                className="absolute -top-4 -right-4 w-8 h-8 bg-purple-500 rounded-full"
-                animate={{ y: [0, -10, 0], opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              />
+              <div className="absolute inset-0 rounded-full ring-1 ring-purple-600/40 pointer-events-none" />
 
-              <motion.div
-                className="absolute -bottom-6 -left-6 w-12 h-12 bg-purple-400 rounded-full opacity-50"
-                animate={{ y: [0, -15, 0], x: [0, 5, 0] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.5,
-                }}
-              />
             </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Scroll Down Icon */}
-      <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center hidden lg:block"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: false, amount: 0.5 }}
-        transition={{ duration: 1, delay: 1.2 }}
-      >
-        <p className="text-gray-400 mb-2">Scroll</p>
-        <div className="animate-bounce text-gray-400">
-          <ChevronDown className="w-6 h-6 mx-auto" />
-        </div>
-      </motion.div>
     </section>
   );
 };
