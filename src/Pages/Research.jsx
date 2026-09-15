@@ -76,7 +76,7 @@ export default function Research() {
             <p className="section-label">Research & writing</p>
             <h2 id="research-heading" className="section-title">Thinking beyond<br />the build.</h2>
           </div>
-          <p className="story-heading-copy">Exploring low-resource languages, model and LLM fine-tuning, and quantization. Research that informs how I build and evaluate conversational systems.</p>
+          <p className="story-heading-copy">Low-resource languages, model and LLM fine-tuning, and quantization — mostly driven by needing Sinhala speech recognition that actually works.</p>
         </div>
 
         {papers.map((paper) => (

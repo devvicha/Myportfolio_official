@@ -20,29 +20,29 @@ export default function Hero() {
       <div className="page-shell">
         <div className="hero-grid">
           <div className="hero-copy">
-            <motion.p {...entrance} transition={{ duration: 0.6 }} className="hero-eyebrow"><span className="status-dot" /> AI ENGINEER & CREATIVE PROBLEM SOLVER</motion.p>
+            <motion.p {...entrance} transition={{ duration: 0.6 }} className="hero-eyebrow"><span className="status-dot" /> AI ENGINEER · PRODUCTION CONVERSATIONAL SYSTEMS</motion.p>
             <motion.h1 {...entrance} transition={{ duration: 0.7, delay: 0.08 }}>Intelligence.<br />Made <span className="hero-human">human<svg viewBox="0 0 360 18" aria-hidden="true"><path d="M4 12 Q162 -2 355 8" /></svg></span>.</motion.h1>
             <motion.div {...entrance} transition={{ duration: 0.7, delay: 0.16 }}>
               <p className="hero-intro">Hi, I’m Vichaksha.<span className="hello-mark" aria-hidden="true">✳</span></p>
-              <p className="hero-description">I build AI that works in the real world.<br className="desktop-break" /> Thoughtful agents, natural conversations,<br className="desktop-break" /> and systems people can depend on.</p>
+              <p className="hero-description">I build conversational agents that run in production.<br className="desktop-break" /> WhatsApp and voice, in Sinhala, Tamil and English,<br className="desktop-break" /> with code that checks what the model says.</p>
               <div className="hero-actions">
                 <a className="button button-dark" href="#projects">Explore my work <ArrowUpRight size={18} /></a>
                 <a className="hero-contact-link" href="#contact">Let’s talk <ArrowUpRight size={17} /></a>
               </div>
             </motion.div>
-            <motion.div {...entrance} transition={{ duration: 0.7, delay: 0.24 }} className="hero-location"><span>BASED IN SRI LANKA</span><span className="hero-location-line" /><span>BUILDING FOR PEOPLE, EVERYWHERE</span></motion.div>
+            <motion.div {...entrance} transition={{ duration: 0.7, delay: 0.24 }} className="hero-location"><span>BASED IN COLOMBO, SRI LANKA</span><span className="hero-location-line" /><span>BUILDING FOR SINHALA, TAMIL AND ENGLISH</span></motion.div>
           </div>
           <motion.div {...entrance} transition={{ duration: 0.9, delay: 0.14 }} className="hero-art-wrap" onPointerMove={move} onPointerLeave={() => { x.set(0); y.set(0); }}>
             <motion.div className="hero-art" style={reduced ? {} : { rotateX, rotateY }}>
-              <div className="portrait-meta"><span>A LITTLE CURIOSITY.<br />A LOT OF BUILDING.</span><MoveUpRight size={24} strokeWidth={1.3} /></div>
+              <div className="portrait-meta"><span>WHATSAPP AND VOICE AGENTS,<br />LIVE IN PRODUCTION.</span><MoveUpRight size={24} strokeWidth={1.3} /></div>
               <div className="portrait-rings" aria-hidden="true"><i /><i /><i /></div>
               <span className="portrait-word" aria-hidden="true">hello.</span>
               <img className="hero-portrait" src={meImage} alt="Vichaksha Viduranga working on his laptop" width="760" height="820" fetchPriority="high" />
-              <div className="portrait-caption"><span>Vichaksha Viduranga</span><span>Engineer. Researcher. Human.</span></div>
+              <div className="portrait-caption"><span>Vichaksha Viduranga</span><span>AI Engineer, Surge Robotics</span></div>
             </motion.div>
             <a className="voice-preview" href="https://voice-agent-frontend-5mtolu2zcq-uc.a.run.app/" target="_blank" rel="noopener noreferrer">
               <span className="voice-preview-icon"><AudioLines size={23} /></span>
-              <span><strong>Don’t just read. Have a conversation.</strong><small>Try my multilingual voice agent <ArrowUpRight size={13} /></small></span>
+              <span><strong>Talk to one instead of reading about it.</strong><small>Try the multilingual voice agent <ArrowUpRight size={13} /></small></span>
             </a>
           </motion.div>
         </div>

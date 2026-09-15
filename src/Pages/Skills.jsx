@@ -79,7 +79,7 @@ const groups = [
   {
     key: "hardware",
     title: "Embedded & Industrial",
-    blurb: "Where software meets hardware.",
+    blurb: "Sensors, controllers and industrial protocols.",
     items: ["ESP32", "Raspberry Pi", "OPC UA", "Snap7 (Siemens S7)", "Charuco calibration"],
   },
 ];
@@ -94,7 +94,7 @@ export default function Skills() {
             <p className="section-label">Tools & expertise</p>
             <h2 id="skills-heading" className="section-title">A practical toolkit.</h2>
           </div>
-          <p className="story-heading-copy">From model to interface, with the infrastructure to make it useful. A mix of production work, research and tested workflows.</p>
+          <p className="story-heading-copy">Grouped by how I have actually used them: shipped in production, trained in research, or tested but not yet deployed.</p>
         </div>
         <div className="story-skill-groups">
           {groups.map((group, index) => (

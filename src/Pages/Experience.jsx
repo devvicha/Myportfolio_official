@@ -64,7 +64,7 @@ export default function Experience() {
             <p className="section-label">Experience & education</p>
             <h2 id="experience-heading" className="section-title">The work behind<br />the work.</h2>
           </div>
-          <p className="story-heading-copy">From the bank counter to production AI. Every role has shaped how I build for the people on the other side of the screen.</p>
+          <p className="story-heading-copy">From the bank counter to production AI. The teller job is why the banking agents I build never ask a customer for a full card number.</p>
         </motion.div>
 
         <div className="story-timeline" aria-label="Professional experience">

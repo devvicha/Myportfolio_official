@@ -84,7 +84,7 @@ export default function Speaking() {
             <p className="section-label">Speaking & community</p>
             <h2 id="speaking-heading" className="section-title">Good work happens<br />with people.</h2>
           </div>
-          <p className="story-heading-copy">Sharing what I learn. Building things together. A few moments from tech talks, workshops and the communities I’ve been part of.</p>
+          <p className="story-heading-copy">Tech talks, workshops and the communities I have been part of since 2022.</p>
         </motion.div>
 
         <div className="story-gallery" ref={galleryRef} role="region" aria-roledescription="carousel" aria-label="Community photo gallery" tabIndex={0}
