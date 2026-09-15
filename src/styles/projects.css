@@ -6,11 +6,16 @@
 .work-heading-aside p { font-size: 13px; color: #5f6a54; line-height: 1.9; margin: 0 0 17px; }
 .work-heading-aside a { font-size: 11px; }
 .work-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 26px; }
-.work-filters { display: flex; gap: 6px; flex-wrap: wrap; }
-.work-filters button { display: inline-flex; align-items: center; gap: 10px; padding: 11px 15px; background: transparent; border-radius: 25px; color: #5f6a54; border: 1px solid transparent; font-size: 10px; transition: background .2s; }
-.work-filters button:hover { background: #e3e9d9; }
-.work-filters button[aria-pressed="true"] { background: var(--ink); color: #fff; }
-.work-filters button span { font-family: var(--mono); font-size: 8px; opacity: .55; }
+.work-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+/* These read as the primary way into the work, so they carry the same surface
+   and border as the project cards rather than sitting invisible on the section
+   background. 10px muted text on #eef1e8 was below the AA contrast floor. */
+.work-filters button { display: inline-flex; align-items: center; gap: 9px; padding: 11px 17px; background: #fcfdf8; border-radius: 25px; color: var(--ink); border: 1px solid #dfe4d8; font-size: 12px; font-weight: 600; letter-spacing: -.01em; transition: background .2s, border-color .2s, box-shadow .2s; }
+.work-filters button:hover { background: #e3e9d9; border-color: #c6d0b5; }
+.work-filters button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.work-filters button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); box-shadow: 0 6px 16px #20251f26; }
+.work-filters button span { font-family: var(--mono); font-size: 10px; color: #5f6a54; background: #e7ecde; padding: 2px 7px; border-radius: 9px; line-height: 1.5; }
+.work-filters button[aria-pressed="true"] span { color: var(--ink); background: var(--lime); }
 .work-index { font-family: var(--mono); font-size: 8px; color: #5f6a54; letter-spacing: .08em; }
 .project-track { display: flex; gap: 24px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; padding-block: 3px 12px; border-radius: 17px; }
 .project-track::-webkit-scrollbar { display: none; }
@@ -104,7 +109,7 @@
   .work-heading-aside { max-width: 320px; margin-top: 23px; }
   .work-heading-aside p { margin-bottom: 12px; }
   .work-filters { flex-wrap: nowrap; gap: 3px; overflow-x: auto; scrollbar-width: none; padding-block: 5px; }
-  .work-filters button { flex-shrink: 0; font-size: 9px; padding: 10px 12px; gap: 6px; }
+  .work-filters button { flex-shrink: 0; font-size: 11px; padding: 10px 14px; gap: 7px; }
   .work-toolbar { display: block; margin-bottom: 18px; }
   .project-card { flex-basis: 89%; }
   .project-track { gap: 16px; }
