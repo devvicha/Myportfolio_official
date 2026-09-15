@@ -54,7 +54,6 @@ export default function AskMyWork() {
   const [turns, setTurns] = useState([]);
   const [busy, setBusy] = useState(false);
   const [connection, setConnection] = useState(getAskEndpoint(API_URL) ? "ready" : "offline");
-  const [model, setModel] = useState(null);
   const dialogRef = useRef(null);
   const inputRef = useRef(null);
   const endRef = useRef(null);
@@ -109,7 +108,6 @@ export default function AskMyWork() {
       if (controller.signal.aborted) return;
       setTurns((previous) => [...previous, { role: "assistant", ...answer }]);
       setConnection(answer.mode === "live" ? "connected" : answer.mode === "mock" ? "mock" : "ready");
-      setModel(answer.mode === "live" ? answer.model : null);
     } catch {
       if (controller.signal.aborted) return;
       setConnection("unavailable");
@@ -123,7 +121,7 @@ export default function AskMyWork() {
 
   const status = {
     ready: "Ask about the projects behind this portfolio",
-    connected: model ? `Connected · ${model}` : "Connected to the project assistant",
+    connected: "Connected to the project assistant",
     mock: "Demo mode · no AI model was called",
     offline: "Live assistant not connected · saved answers available",
     unavailable: "Live assistant unavailable · saved answers available",
